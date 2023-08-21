@@ -30,7 +30,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         OrRequestMatcher publicUrls = new OrRequestMatcher(
                 new AntPathRequestMatcher("/api/v1/users/login"),
-                new AntPathRequestMatcher("/api/v1/users/signup"));
+                new AntPathRequestMatcher("/api/v1/users/signup"),
+                new AntPathRequestMatcher("/api/v1/mail/**"));
 
         http
                 .httpBasic(httpBasic -> httpBasic.disable())

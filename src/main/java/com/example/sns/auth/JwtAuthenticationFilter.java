@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private Authentication getAuthentication(String token) {
         Map<String, Object> claims = authService.getClaims(token);
-        UserLevel role = UserLevel.valueOf((String) claims.get("userLevel"));
+        UserLevel role = UserLevel.valueOf((String) claims.get("user_level"));
         return new UsernamePasswordAuthenticationToken(claims, "", Collections.singletonList(role));
     }
 

@@ -21,7 +21,6 @@ public class UserService {
 
     public void signup(SignupRequest request){
         Optional<User> byEmail = userRepository.findByEmail(request.email());
-        System.out.println(byEmail);
         if (byEmail.isEmpty()) {
             userRepository.save(request.toEntity());
         }
@@ -33,7 +32,6 @@ public class UserService {
         User user = byEmailAndPw.orElseThrow(() -> new LoginFailException("해당 유저가 존재하지 않습니다.."));
         String token = authService.makeToken(user);
         return new LoginResponse(
-                user.getUserEmail(),
                 user.getUserName(),
                 user.getUserAge(),
                 user.getUserPhone(),

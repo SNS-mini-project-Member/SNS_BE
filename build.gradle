@@ -41,7 +41,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-//jpa 관련
+    //jpa 관련
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
@@ -54,6 +54,9 @@ dependencies {
 
     //json
     implementation 'com.google.code.gson:gson:2.8.9'
+
+    //email
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.1.1'
 
 }
 
