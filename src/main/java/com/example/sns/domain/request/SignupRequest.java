@@ -6,7 +6,7 @@ import com.example.sns.domain.entity.User;
 public record SignupRequest(String email
         , String password
         , String name
-        , Integer age
+        , String age
         , String phone){
     public User toEntity(){
         return User.builder()

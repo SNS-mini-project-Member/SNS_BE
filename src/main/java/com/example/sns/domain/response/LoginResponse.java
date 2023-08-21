@@ -1,10 +1,14 @@
 package com.example.sns.domain.response;
 
-public record LoginResponse (String name
-        , Integer age
+import java.sql.Timestamp;
+
+public record LoginResponse (String email
+        , String name
+        , String age
         , String phone
         , Integer followersCount
         , Integer followingsCount
+        , Timestamp createAt
         , String token){
 }
 

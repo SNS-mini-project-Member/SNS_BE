@@ -28,7 +28,7 @@ public class User {
     private String userName;
 
     @Column(nullable = false, name = "age")
-    private Integer userAge;
+    private String userAge;
 
     @Column(unique = true, nullable = false, name = "phone")
     private String userPhone;
