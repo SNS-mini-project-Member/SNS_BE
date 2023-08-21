@@ -39,12 +39,14 @@ public class CommentEntity {
     private Timestamp createdAt;
 
     @Column(nullable = false, name = "likeCount", columnDefinition = "INT default 0")
+
     private Boolean likeCount;
     @PrePersist
     public void prePersist() {
         this.createdAt = Timestamp.from(Instant.now());
     }
-    @OneToMany(mappedBy = "comments", fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
     private List<ReCommentEntity> reCommentEntity;
 
 }

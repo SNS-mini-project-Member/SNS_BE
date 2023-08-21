@@ -8,6 +8,7 @@ import com.example.sns.board.domain.request.CommentRequest;
 import com.example.sns.board.domain.request.ReCommentRequest;
 import com.example.sns.board.repository.BoardRepository;
 import com.example.sns.board.repository.CommentRepository;
+import com.example.sns.board.repository.ReCommentRepository;
 import com.example.sns.user.domain.entity.User;
 import com.example.sns.user.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -28,6 +29,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final ReCommentRepository reCommentRepository;
 
     public void boardInsert(BoardRequest boardRequest) {
         BoardEntity boardEntity = boardRequest.toEntity();
@@ -37,18 +39,10 @@ public class BoardService {
     public void commentInsert(CommentRequest commentRequest) {
         CommentEntity commentEntity = commentRequest.toEntity();
         commentRepository.save(commentEntity);
-//        Optional<User> userId = userRepository.findById(user_seq);
-//        Optional<BoardEntity> commentId = boardRepository.findById(board_seq);
 
-//        CommentEntity comment = CommentEntity.builder()
-//                .user(userId.get())
-//                .board(commentId.get())
-//                .comment(commentRequest.toEntity().getComment())
-//                .likeCount(commentRequest.toEntity().getLikeCount())
-//                .createdAt(commentRequest.toEntity().getCreatedAt())
-//                .build();
     }
-    public void ReCommentInsert(ReCommentRequest reCommentRequest) {
-
+    public void reCommentInsert(ReCommentRequest reCommentRequest) {
+        ReCommentEntity reCommentEntity = reCommentRequest.toEntity();
+        reCommentRepository.save(reCommentEntity);
     }
 }

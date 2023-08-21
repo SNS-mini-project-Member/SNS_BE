@@ -2,6 +2,8 @@ package com.example.sns.board.controller;
 
 import com.example.sns.board.domain.request.BoardRequest;
 import com.example.sns.board.domain.request.CommentRequest;
+import com.example.sns.board.domain.request.ReCommentRequest;
+import com.example.sns.board.repository.ReCommentRepository;
 import com.example.sns.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,12 +22,16 @@ public class BoardController {
     public void insert(@RequestBody BoardRequest request){
         boardService.boardInsert(request);
     }
+
     @PostMapping("/comment")
     @ResponseStatus(HttpStatus.CREATED)
     public void comments(@RequestBody CommentRequest request){
         boardService.commentInsert(request);
-
     }
 
-
+    @PostMapping("/recomment")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void reComments(@RequestBody ReCommentRequest request){
+        boardService.reCommentInsert(request);
+    }
 }

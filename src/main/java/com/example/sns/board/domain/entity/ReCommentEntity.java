@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Getter
 @Entity
 @Builder
@@ -19,6 +21,12 @@ public class ReCommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ReCommentSeq;
 
+    @Column(nullable = false, name = "reComment")
+    private String reComment;
+
+    @Column(nullable = true, name = "created_at")
+    private Timestamp createdAt;
+
     @ManyToOne
     @JoinColumn(name = "userSeq")
     private User user;
@@ -27,6 +35,7 @@ public class ReCommentEntity {
     @JoinColumn(name = "boardSeq")
     private BoardEntity board;
 
-    @Column(nullable = false, name = "comment")
-    private String comment;
+    @ManyToOne
+    @JoinColumn(name = "commentSeq")
+    private CommentEntity comment;
 }
