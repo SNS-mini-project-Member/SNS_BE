@@ -7,21 +7,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.List;
-
 @Getter
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comments")
 
-public class CommentEntity {
+public class ReCommentEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentSeq;
+    private Long ReCommentSeq;
 
     @ManyToOne
     @JoinColumn(name = "userSeq")
@@ -31,20 +27,6 @@ public class CommentEntity {
     @JoinColumn(name = "boardSeq")
     private BoardEntity board;
 
-
     @Column(nullable = false, name = "comment")
     private String comment;
-
-    @Column(nullable = true, name = "created_at")
-    private Timestamp createdAt;
-
-    @Column(nullable = false, name = "likeCount", columnDefinition = "INT default 0")
-    private Boolean likeCount;
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = Timestamp.from(Instant.now());
-    }
-    @OneToMany(mappedBy = "comments", fetch = FetchType.LAZY)
-    private List<ReCommentEntity> reCommentEntity;
-
 }

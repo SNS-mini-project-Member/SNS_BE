@@ -32,6 +32,9 @@ public class BoardEntity {
     @Column(nullable = true, name = "created_at")
     private Timestamp createdAt;
 
+    @Column(nullable = false, name = "like_count", columnDefinition = "INT default 0")
+    private Boolean likeCount;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = Timestamp.from(Instant.now());
@@ -45,5 +48,8 @@ public class BoardEntity {
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<CommentEntity> commentEntities;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    private List<ReCommentEntity> ReCommentEntities;
 
 }

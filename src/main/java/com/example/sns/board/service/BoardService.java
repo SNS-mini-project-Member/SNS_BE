@@ -2,7 +2,10 @@ package com.example.sns.board.service;
 
 import com.example.sns.board.domain.entity.BoardEntity;
 import com.example.sns.board.domain.entity.CommentEntity;
+import com.example.sns.board.domain.entity.ReCommentEntity;
 import com.example.sns.board.domain.request.BoardRequest;
+import com.example.sns.board.domain.request.CommentRequest;
+import com.example.sns.board.domain.request.ReCommentRequest;
 import com.example.sns.board.repository.BoardRepository;
 import com.example.sns.board.repository.CommentRepository;
 import com.example.sns.user.domain.entity.User;
@@ -26,32 +29,26 @@ public class BoardService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    public BoardEntity createBoard(User user, String contents, String media, String hashTag){
-        BoardEntity board = BoardEntity.builder()
-                .contents(contents)
-                .media(media)
-                .hashTag(hashTag)
-                .user(user)
-                .build();
-
-        return board;
+    public void boardInsert(BoardRequest boardRequest) {
+        BoardEntity boardEntity = boardRequest.toEntity();
+        boardRepository.save(boardEntity);
     }
 
-    public void boardInsert(BoardRequest boardRequest, Long user_seq){
-        Optional<User> byId = userRepository.findById(user_seq);
+    public void commentInsert(CommentRequest commentRequest) {
+        CommentEntity commentEntity = commentRequest.toEntity();
+        commentRepository.save(commentEntity);
+//        Optional<User> userId = userRepository.findById(user_seq);
+//        Optional<BoardEntity> commentId = boardRepository.findById(board_seq);
 
-        BoardEntity board = BoardEntity.builder()
-                .user(byId.get())
-                .contents(boardRequest.toEntity().getContents())
-                .media(boardRequest.toEntity().getMedia())
-                .hashTag(boardRequest.toEntity().getHashTag())
-                .createdAt(boardRequest.toEntity().getCreatedAt())
-                .build();
-
-            boardRepository.save(board);
+//        CommentEntity comment = CommentEntity.builder()
+//                .user(userId.get())
+//                .board(commentId.get())
+//                .comment(commentRequest.toEntity().getComment())
+//                .likeCount(commentRequest.toEntity().getLikeCount())
+//                .createdAt(commentRequest.toEntity().getCreatedAt())
+//                .build();
     }
-
-    public void commentInsert(){
+    public void ReCommentInsert(ReCommentRequest reCommentRequest) {
 
     }
 }

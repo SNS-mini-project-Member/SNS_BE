@@ -1,6 +1,7 @@
 package com.example.sns.board.controller;
 
 import com.example.sns.board.domain.request.BoardRequest;
+import com.example.sns.board.domain.request.CommentRequest;
 import com.example.sns.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,14 +15,17 @@ public class BoardController {
     private final BoardService boardService;
 
 
-    @PostMapping("/board/{user_seq}")
+    @PostMapping("/boards")
     @ResponseStatus(HttpStatus.CREATED)
-    public void insert(@RequestBody BoardRequest request, @PathVariable Long user_seq){
-        boardService.boardInsert(request, user_seq);
+    public void insert(@RequestBody BoardRequest request){
+        boardService.boardInsert(request);
     }
-    @PostMapping("/comment/{user_seq")
+    @PostMapping("/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public void comments(@RequestBody )
+    public void comments(@RequestBody CommentRequest request){
+        boardService.commentInsert(request);
+
+    }
 
 
 }

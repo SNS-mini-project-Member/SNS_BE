@@ -2,6 +2,7 @@ package com.example.sns.user.domain.entity;
 
 import com.example.sns.board.domain.entity.BoardEntity;
 import com.example.sns.board.domain.entity.CommentEntity;
+import com.example.sns.board.domain.entity.ReCommentEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,5 +57,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<CommentEntity> commentEntities;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ReCommentEntity> ReCommentEntities;
 
 }
