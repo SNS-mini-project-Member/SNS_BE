@@ -33,12 +33,12 @@ public class FollowService {
     }
 
     @Transactional
-    public void saveFollower(FollowerRequest followerRequest) {
+    public void saveFollower(FollowerRequest followerRequest, FollowingRequest followingRequest) {
 
-        Optional<Follower> byCheck = followerRepository.findByCheck(followerRequest.getFollowerId());
+        Optional<Follower> byCheck = followerRepository.findByCheck(followerRequest.getFollowerUserId());
         if (byCheck.isEmpty()){
             followerRepository.save(followerRequest.toEntity());
-            followingRepository.save(followerRequest.toEntity());
+            followingRepository.save(followingRequest.toEntity());
         }else {
             //이미 팔로우된 계정입니다.
         }

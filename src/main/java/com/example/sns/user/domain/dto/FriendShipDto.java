@@ -5,14 +5,16 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
 @Getter
 @Setter
-public class FriendShipDto extends FriendShip {
+public class FriendShipDto {
     private Long friendId;
-    @Builder
+
     public FriendShipDto(FriendShip friendShip){
         this.friendId = friendShip.getFriendShipSeq();
+    }
+
+    public FriendShipDto(){
+
     }
 }

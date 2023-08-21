@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "FriendShips")
 @Getter
@@ -24,5 +26,10 @@ public class FriendShip {
     private Long friendshipsId;
 
     @Column(name ="create_at" , nullable = false)
-    private String createAt;
+    private Date createAt;
+
+    @PrePersist
+    protected void onCreate(){
+        createAt = new Date();
+    }
 }

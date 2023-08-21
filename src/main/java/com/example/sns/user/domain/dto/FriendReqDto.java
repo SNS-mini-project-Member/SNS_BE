@@ -6,15 +6,17 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
 @Getter
 @Setter
-public class FriendReqDto extends FriendReq {
+public class FriendReqDto {
 
     private Long friendReqId;
 
     public FriendReqDto(FriendReq friendReq){
         this.friendReqId = friendReq.getFriendRequestsSeq();
+    }
+
+    public FriendReqDto(){
+
     }
 }

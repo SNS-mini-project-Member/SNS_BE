@@ -1,17 +1,21 @@
 package com.example.sns.user.domain.response;
 import com.example.sns.user.domain.dto.FollowerDto;
 import com.example.sns.user.domain.entity.Follower;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @Builder
-
-public class FollowerResponse extends FollowerDto{
-
-
+@AllArgsConstructor
+public class FollowerResponse extends FollowerDto {
+    private Long id;
     public FollowerResponse(Follower follower) {
         super(follower);
     }
+
+    public FollowerResponse(){
+
+    }
+
 }

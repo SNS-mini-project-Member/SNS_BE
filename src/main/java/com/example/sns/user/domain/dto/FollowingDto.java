@@ -6,15 +6,16 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
 @Getter
 @Setter
-public class FollowingDto extends Following {
+public class FollowingDto {
 
     private Long followingId;
 
     public FollowingDto(Following following){
         this.followingId = following.getFollowingsSeq();
+    }
+
+    public FollowingDto(){
     }
 }

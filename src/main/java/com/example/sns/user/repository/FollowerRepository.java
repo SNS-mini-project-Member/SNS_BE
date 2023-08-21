@@ -14,7 +14,7 @@ public interface FollowerRepository extends JpaRepository<Follower, Long> {
 
     @Query("SELECT f FROM Follower f " +
             "WHERE f.followersSeq = :userId ")
-    public Optional<Follower> findByCheck(@Param("followerSeq") Long userId);
+    public Optional<Follower> findByCheck(@Param("userId") Long userId);
 
 
     @Modifying

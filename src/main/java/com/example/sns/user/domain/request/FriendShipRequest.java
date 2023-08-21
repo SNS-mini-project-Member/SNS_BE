@@ -11,11 +11,14 @@ import lombok.RequiredArgsConstructor;
 public class FriendShipRequest {
 
     private final Long friendShipId;
+    private final Long userId;
 
     public FriendShip toEntity() {
         FriendShip build = FriendShip
                 .builder()
-                .friendShipSeq(User.builder().userId(friendShipId).build().getUserId())
+                .friendShipSeq(User.builder().userId(userId).build().getUserId())
+                .userId(userId)
+                .friendshipsId(friendShipId)
                 .build();
         return build;
     }

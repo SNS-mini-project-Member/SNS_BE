@@ -3,15 +3,15 @@ import com.example.sns.user.domain.entity.Follower;
 import lombok.*;
 
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Getter
 @Setter
-@Builder
-public class FollowerDto extends Follower {
+public class FollowerDto {
     private Long followerId;
 
-
-    public FollowerDto(Follower follower){
+    public FollowerDto(Follower follower) {
         this.followerId = follower.getFollowersSeq();
+    }
+
+    public FollowerDto() {
     }
 }

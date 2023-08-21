@@ -10,11 +10,14 @@ import lombok.RequiredArgsConstructor;
 public class FriendReqRequest {
 
     private final Long friendReqId;
+    private final Long userId;
 
     public FriendReq toEntity() {
         FriendReq build = FriendReq
                 .builder()
                 .friendRequestsSeq(User.builder().userId(friendReqId).build().getUserId())
+                .requesterId(friendReqId)
+                .requesteeId(userId)
                 .build();
         return build;
     }

@@ -27,4 +27,9 @@ public class Following {
 
     @Column(name ="create_at" , nullable = false)
     private Date createAt;
+
+    @PrePersist
+    protected void onCreate(){
+        createAt = new Date();
+    }
 }

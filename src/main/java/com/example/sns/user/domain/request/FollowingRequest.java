@@ -10,13 +10,16 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class FollowingRequest {
+    private final Long userId;
 
     private final Long followingId;
 
     public Following toEntity() {
         Following build = Following
                 .builder()
-                .followingsSeq(User.builder().userId(followingId).build().getUserId())
+                .followingsSeq(User.builder().userId(userId).build().getUserId())
+                .followingUserId(userId)
+                .userId(followingId)
                 .build();
         return build;
     }

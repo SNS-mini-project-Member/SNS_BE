@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface FollowingRepository extends JpaRepository<Follower, Long> {
+public interface FollowingRepository extends JpaRepository<Following, Long> {
 
 
     @Modifying
-    @Query("DELETE FROM Follower f WHERE f.followerUserId = :followerUserId")
+    @Query("DELETE FROM Following f WHERE f.userId = :followerUserId")
     public void deleteByFollowerUserId(@Param("followerUserId") Long followerUserId);
 
 }

@@ -15,11 +15,10 @@ public interface FriendShipRepository extends JpaRepository<FriendShip,Long> {
 
     @Query("SELECT f FROM FriendShip f " +
             "WHERE f.friendShipSeq = :userId ")
-    public Optional<FriendShip> findByCheck(@Param("friendShipSeq") Long userId);
-
+    public Optional<FriendShip> findByCheck(@Param("userId") Long userId);
 
     @Modifying
-    @Query("DELETE FROM FriendShip f WHERE f.friendShipSeq = :friendId")
-    public void deleteByFriendId(@Param("friendShipSeq") Long friendId);
+    @Query("DELETE FROM FriendShip f WHERE f.friendshipsId = :friendId")
+    public void deleteByFriendId(@Param("friendId") Long friendId);
 
 }

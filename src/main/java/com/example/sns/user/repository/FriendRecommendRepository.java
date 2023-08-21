@@ -14,10 +14,10 @@ public interface FriendRecommendRepository extends JpaRepository<FriendRecommend
 
     @Query("SELECT f FROM FriendRecommend f " +
             "WHERE f.friendRecommendationsSeq = :userId ")
-    public Optional<FriendRecommend> findByCheck(@Param("friendRecommendationsSeq") Long userId);
+    public Optional<FriendRecommend> findByCheck(@Param("userId") Long userId);
 
     @Modifying
-    @Query("DELETE FROM FriendRecommend f WHERE f.friendRecommendationsSeq = :recommendId")
-    public void deleteByRecommendId(@Param("followerUserId") Long recommendId);
+    @Query("DELETE FROM FriendRecommend f WHERE f.recommendedUserId = :recommendId")
+    public void deleteByRecommendId(@Param("recommendId") Long recommendId);
 
 }

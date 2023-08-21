@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "FriendRecommendations")
 @Getter
@@ -25,6 +27,11 @@ public class FriendRecommend {
     private Long recommendedUserId;
 
     @Column(name ="create_at" , nullable = false)
-    private String createAt;
+    private Date createAt;
+
+    @PrePersist
+    protected void onCreate(){
+        createAt = new Date();
+    }
 
 }

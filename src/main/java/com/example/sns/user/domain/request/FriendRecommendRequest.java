@@ -10,11 +10,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
     public class FriendRecommendRequest {
         private final Long friendRecommendId;
+        private final Long userId;
 
         public FriendRecommend toEntity() {
             FriendRecommend build = FriendRecommend
                     .builder()
                     .friendRecommendationsSeq(User.builder().userId(friendRecommendId).build().getUserId())
+                    .recommendedUserId(friendRecommendId)
+                    .userId(userId)
                     .build();
             return build;
         }

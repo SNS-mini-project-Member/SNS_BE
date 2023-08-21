@@ -3,6 +3,8 @@ package com.example.sns.user.service;
 import com.example.sns.user.domain.entity.*;
 import com.example.sns.user.domain.request.FollowerRequest;
 import com.example.sns.user.domain.request.FriendRecommendRequest;
+
+import com.example.sns.user.domain.request.FriendRequest;
 import com.example.sns.user.domain.request.FriendShipRequest;
 import com.example.sns.user.domain.response.FollowerResponse;
 import com.example.sns.user.domain.response.FriendRecommendResponse;
@@ -34,10 +36,10 @@ public class FriendService {
     }
 
     @Transactional(readOnly = true)
-    public Page<FriendShipResponse> getAllFriendReq(PageRequest request){
-        Page<FriendShip> allFriendReq = friendReqRepository.findAll(request);
+    public Page<FriendReqResponse> getAllFriendReq(PageRequest request){
+        Page<FriendReq> allFriendReq = friendReqRepository.findAll(request);
         return allFriendReq
-                .map(FriendShipResponse::new);
+                .map(FriendReqResponse::new);
     }
 
     @Transactional(readOnly = true)
@@ -48,12 +50,13 @@ public class FriendService {
     }
 
     @Transactional
-    public void saveFriends(FriendShipRequest friendShipRequest) {
+    public void saveFriends(FriendRequest friendRequest) {
 
-        Optional<FriendShip> byCheck = friendShipRepository.findByCheck(friendShipRequest.getFriendShipId());
+        Optional<FriendShip> byCheck = friendShipRepository.findByCheck(friendRequest.getFriendShipRequest().getFriendShipId());
         if (byCheck.isEmpty()){
-            friendShipRepository.save(friendShipRequest.toEntity());
-            friendReqRepository.save(friendShipRequest.toEntity());
+            friendShipRepository.save(friendRequest.getFriendShipRequest().toEntity());
+            friendReqRepository.deleteByReqId(friendRequest.getFriendReqRequest().getFriendReqId());
+            friendRecommendRepository.deleteByRecommendId(friendRequest.getFriendRecommendRequest().getFriendRecommendId());
         }else {
             //이미 친구인 계정입니다.
         }
@@ -61,12 +64,26 @@ public class FriendService {
     }
 
     @Transactional
-    public void saveFriendRecommend(FriendRecommendRequest friendRecommendRequest) {
+    public void reqFriends(FriendRequest friendRequest) {
+        Optional<FriendShip> byCheck = friendShipRepository.findByCheck(friendRequest.getFriendShipRequest().getFriendShipId());
+        Optional<FriendRequest> byCheck2 = friendReqRepository.findByCheck(friendRequest.getFriendReqRequest().getFriendReqId());
 
-        Optional<FriendRecommend> byCheck = friendRecommendRepository.findByCheck(friendRecommendRequest.getFriendRecommendId());
-        if (byCheck.isEmpty()){
-            friendRecommendRepository.save(friendRecommendRequest.toEntity());
+        if (byCheck.isEmpty() && byCheck2.isEmpty()){
+            friendReqRepository.save(friendRequest.getFriendReqRequest().toEntity());
         }else {
+            System.out.println("이미 친구신청을 했거나 친구인 계정입니다.");
+        }
+
+    }
+
+    @Transactional
+    public void saveFriendRecommend(FriendRequest friendRequest) {
+
+        Optional<FriendRecommend> byCheck = friendRecommendRepository.findByCheck(friendRequest.getFriendRecommendRequest().getFriendRecommendId());
+        if (byCheck.isEmpty()){
+            friendRecommendRepository.save(friendRequest.getFriendRecommendRequest().toEntity());
+        }else {
+            System.out.println("친구추천 오류");
         }
 
     }
