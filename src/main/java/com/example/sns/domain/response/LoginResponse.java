@@ -1,6 +1,6 @@
 package com.example.sns.domain.response;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public record LoginResponse (String email
         , String name
@@ -8,7 +8,7 @@ public record LoginResponse (String email
         , String phone
         , Integer followersCount
         , Integer followingsCount
-        , Timestamp createAt
+        , LocalDateTime createAt
         , String token){
 }
 

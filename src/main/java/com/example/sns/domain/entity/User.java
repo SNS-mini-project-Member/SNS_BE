@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity @Builder
 @Data
@@ -39,7 +41,7 @@ public class User {
     private Integer followingsCount;
 
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_level")
@@ -47,7 +49,7 @@ public class User {
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = Timestamp.from(Instant.now());
+        this.createdAt = LocalDateTime.now();
         this.followersCount = 0;
         this.followingsCount = 0;
         this.level = UserLevel.LEVEL_OK;
