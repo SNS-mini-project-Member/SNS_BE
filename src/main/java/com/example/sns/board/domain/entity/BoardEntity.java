@@ -33,14 +33,12 @@ public class BoardEntity {
     private Timestamp createdAt;
 
     @Column(nullable = false, name = "like_count", columnDefinition = "INT default 0")
-    private Boolean likeCount;
+    private Integer likeCount;
 
     @PrePersist
     public void prePersist() {
         this.createdAt = Timestamp.from(Instant.now());
     }
-
-
 
     @ManyToOne
     @JoinColumn(name = "userSeq") // 외래키를 userSeq로 지정
@@ -52,4 +50,16 @@ public class BoardEntity {
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<ReCommentEntity> ReCommentEntities;
 
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    private List<BoardLikeEntity> commentLikeEntities;
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        if (likeCount > 0) {
+            this.likeCount--;
+        }
+    }
 }

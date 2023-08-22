@@ -40,7 +40,7 @@ public class CommentEntity {
 
     @Column(nullable = false, name = "likeCount", columnDefinition = "INT default 0")
 
-    private Boolean likeCount;
+    private Integer likeCount;
     @PrePersist
     public void prePersist() {
         this.createdAt = Timestamp.from(Instant.now());

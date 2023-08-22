@@ -9,7 +9,7 @@ public record BoardRequest(Long userSeq
         , String contents
         , String media
         , String hashTag
-        , Boolean likeCount
+        , Integer likeCount
         , Timestamp creatAt) {
     public BoardEntity toEntity() {
         return BoardEntity.builder()
@@ -17,7 +17,7 @@ public record BoardRequest(Long userSeq
                 .contents(contents)
                 .media(media)
                 .hashTag(hashTag)
-                .likeCount(likeCount)
+                .likeCount(0)
                 .createdAt(creatAt)
                 .build();
 
