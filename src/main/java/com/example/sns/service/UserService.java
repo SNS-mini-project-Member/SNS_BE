@@ -41,6 +41,17 @@ public class UserService {
                 user.getCreatedAt(),
                 token);
     }
-
+    public void Update(String email, String password){
+        System.out.println(email + password + " 들어옴");
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        if (byEmail.isPresent()) {
+            User user = byEmail.get();
+            user.setUserPassword(password);
+            userRepository.save(user); // 변경된 비밀번호 저장
+        } else {
+            System.out.println("해당 유저가 존재하지않다.");
+            // 사용자를 찾지 못한 경우 처리할 내용 추가
+        }
+    }
 
 }

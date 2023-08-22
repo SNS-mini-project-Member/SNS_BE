@@ -31,7 +31,9 @@ public class SecurityConfig {
         OrRequestMatcher publicUrls = new OrRequestMatcher(
                 new AntPathRequestMatcher("/api/v1/users/login"),
                 new AntPathRequestMatcher("/api/v1/users/signup"),
-                new AntPathRequestMatcher("/api/v1/mail/**"));
+                new AntPathRequestMatcher("/api/v1/users/update"),
+                new AntPathRequestMatcher("/api/v1/mail"),
+                new AntPathRequestMatcher("/api/v1/mail/pwChange"));
 
         http
                 .httpBasic(httpBasic -> httpBasic.disable())

@@ -2,6 +2,7 @@ package com.example.sns.controller;
 
 import com.example.sns.domain.request.LoginRequest;
 import com.example.sns.domain.request.SignupRequest;
+import com.example.sns.domain.request.UpdateRequest;
 import com.example.sns.domain.response.LoginResponse;
 import com.example.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class UserController {
     public LoginResponse login(
             @RequestBody LoginRequest request){
         return userService.login(request);
+    }
+
+    @PostMapping("/update")
+    public void update(@RequestBody UpdateRequest updateRequest){
+        userService.Update(updateRequest.email(), updateRequest.password());
     }
 
 

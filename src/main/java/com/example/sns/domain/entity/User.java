@@ -2,14 +2,13 @@ package com.example.sns.domain.entity;
 
 import com.example.sns.dto.UserLevel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.sql.Timestamp;
 import java.time.Instant;
 
-@Entity @Builder @Getter
+@Entity @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
