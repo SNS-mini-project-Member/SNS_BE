@@ -1,9 +1,6 @@
 package com.example.sns.board.controller;
 
-import com.example.sns.board.domain.request.BoardLikeRequest;
-import com.example.sns.board.domain.request.BoardRequest;
-import com.example.sns.board.domain.request.CommentRequest;
-import com.example.sns.board.domain.request.ReCommentRequest;
+import com.example.sns.board.domain.request.*;
 import com.example.sns.board.repository.ReCommentRepository;
 import com.example.sns.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -38,15 +35,13 @@ public class BoardController {
 
     @PostMapping("/likes")
     @ResponseStatus(HttpStatus.CREATED)
-    public void likePost(@RequestBody BoardLikeRequest request) {
+    public void boardLikePost(@RequestBody BoardLikeRequest request) {
         boardService.boardLikes(request);
     }
 
-//    @DeleteMapping("/likes/{userSeq}")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void DeleteLikePost(@RequestBody BoardLikeRequest request) {
-//        boardService.boardLikes(request);
-//
-//
-//    }
+    @PostMapping("/commentlikes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void commentLikePost(@RequestBody CommentLikeRequest request) {
+        boardService.commentLikes(request);
+    }
 }

@@ -1,9 +1,6 @@
 package com.example.sns.user.domain.entity;
 
-import com.example.sns.board.domain.entity.BoardEntity;
-import com.example.sns.board.domain.entity.BoardLikeEntity;
-import com.example.sns.board.domain.entity.CommentEntity;
-import com.example.sns.board.domain.entity.ReCommentEntity;
+import com.example.sns.board.domain.entity.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,5 +61,8 @@ public class User {
 
     @OneToMany(mappedBy = "user" ,fetch = FetchType.LAZY)
     private List<BoardLikeEntity> boardLikeEntities;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<CommentLikeEntity> commentLikeEntities;
 
 }

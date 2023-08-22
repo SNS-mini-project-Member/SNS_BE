@@ -31,6 +31,11 @@ public class CommentEntity {
     @JoinColumn(name = "boardSeq")
     private BoardEntity board;
 
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+    private List<ReCommentEntity> reCommentEntity;
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+    private List<CommentLikeEntity> commentLikeEntities;
 
     @Column(nullable = false, name = "comment")
     private String comment;
@@ -46,7 +51,6 @@ public class CommentEntity {
         this.createdAt = Timestamp.from(Instant.now());
     }
 
-    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-    private List<ReCommentEntity> reCommentEntity;
+
 
 }

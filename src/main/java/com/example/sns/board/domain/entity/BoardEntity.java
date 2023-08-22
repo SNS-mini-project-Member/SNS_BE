@@ -51,7 +51,13 @@ public class BoardEntity {
     private List<ReCommentEntity> ReCommentEntities;
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
-    private List<BoardLikeEntity> commentLikeEntities;
+    private List<BoardLikeEntity> boardLikeEntities;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    private List<CommentLikeEntity> commentLikeEntities;
+
+
+
 
     public void increaseLikeCount() {
         this.likeCount++;
