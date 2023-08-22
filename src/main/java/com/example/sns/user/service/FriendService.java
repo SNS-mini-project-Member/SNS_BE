@@ -6,18 +6,20 @@ import com.example.sns.user.domain.request.FriendRecommendRequest;
 
 import com.example.sns.user.domain.request.FriendRequest;
 import com.example.sns.user.domain.request.FriendShipRequest;
-import com.example.sns.user.domain.response.FollowerResponse;
-import com.example.sns.user.domain.response.FriendRecommendResponse;
-import com.example.sns.user.domain.response.FriendReqResponse;
-import com.example.sns.user.domain.response.FriendShipResponse;
+import com.example.sns.user.domain.response.*;
 import com.example.sns.user.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,41 +29,84 @@ public class FriendService {
     private final FriendRecommendRepository friendRecommendRepository;
     private final FriendReqRepository friendReqRepository;
     private final FriendShipRepository friendShipRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public Page<FriendShipResponse> getAllFriends(PageRequest request){
-        Page<FriendShip> allFriend = friendShipRepository.findAll(request);
+    public Page<UserResponse> getAllFriends(PageRequest request, Long userId){
+
+        Page<User> allFriend = friendShipRepository.findAllFriend(userId,request);
         return allFriend
-                .map(FriendShipResponse::new);
+                .map(UserResponse::new);
+
+
     }
 
     @Transactional(readOnly = true)
-    public Page<FriendReqResponse> getAllFriendReq(PageRequest request){
-        Page<FriendReq> allFriendReq = friendReqRepository.findAll(request);
+    public Page<UserResponse> getAllFriendReq(PageRequest request,Long id){
+        Page<User> allFriendReq = friendReqRepository.findAllFriendReq(id,request);
         return allFriendReq
-                .map(FriendReqResponse::new);
+                .map(UserResponse::new);
     }
 
     @Transactional(readOnly = true)
-    public Page<FriendRecommendResponse> getAllFriendRecommend(PageRequest request){
-        Page<FriendRecommend> allFriendRecommend = friendRecommendRepository.findAll(request);
-        return allFriendRecommend
-                .map(FriendRecommendResponse::new);
+    public Page<UserResponse> getAllFriendRecommend(PageRequest request, Long userId) {
+        List<User> allUsers = userRepository.findAll();
+        Page<User> allFriends = friendShipRepository.findAllFriend(userId, request);
+
+        List<Long> friendUserIds = allFriends.stream()
+                .map(User::getUserId)
+                .collect(Collectors.toList());
+
+        List<User> nonFriendUsers = allUsers.stream()
+                .filter(user -> !friendUserIds.contains(user.getUserId()))
+                .collect(Collectors.toList());
+
+        List<User> randomNonFriendUsers = getRandomUsers(nonFriendUsers, 20);
+
+        return new PageImpl<>(randomNonFriendUsers.stream()
+                .map(UserResponse::new)
+                .collect(Collectors.toList()), request, randomNonFriendUsers.size());
+    }
+
+    private List<User> getRandomUsers(List<User> allUsers, int count) {
+        List<User> randomUsers = new ArrayList<>();
+        Random random = new Random();
+
+        while (randomUsers.size() < count && !allUsers.isEmpty()) {
+            int randomIndex = random.nextInt(allUsers.size());
+            randomUsers.add(allUsers.remove(randomIndex));
+        }
+
+        return randomUsers;
     }
 
     @Transactional
     public void saveFriends(FriendRequest friendRequest) {
+        FriendShip friendShip = friendRequest.getFriendShipRequest().toEntity();
+        Long userId1 = friendShip.getUserId();
+        Long userId2 = friendShip.getFriendshipsId();
 
-        Optional<FriendShip> byCheck = friendShipRepository.findByCheck(friendRequest.getFriendShipRequest().getFriendShipId());
-        if (byCheck.isEmpty()){
-            friendShipRepository.save(friendRequest.getFriendShipRequest().toEntity());
+        // Check if the combination (userId1, userId2) or (userId2, userId1) already exists
+        boolean exists = friendShipRepository.existsByUserIdAndFriendshipsId(userId1, userId2) ||
+                friendShipRepository.existsByUserIdAndFriendshipsId(userId2, userId1);
+
+        if (!exists) {
+            friendShipRepository.save(friendShip);
+
+            // Create the reverse relationship and save
+            FriendShip reverseFriendShip = new FriendShip();
+            reverseFriendShip.setUserId(userId2);
+            reverseFriendShip.setFriendshipsId(userId1);
+            friendShipRepository.save(reverseFriendShip);
+
+            // Delete corresponding friend request and recommendation entries
             friendReqRepository.deleteByReqId(friendRequest.getFriendReqRequest().getFriendReqId());
             friendRecommendRepository.deleteByRecommendId(friendRequest.getFriendRecommendRequest().getFriendRecommendId());
-        }else {
-            //이미 친구인 계정입니다.
+        } else {
+            System.out.println("이미 친구인 계정입니다.");
         }
-
     }
+
 
     @Transactional
     public void reqFriends(FriendRequest friendRequest) {

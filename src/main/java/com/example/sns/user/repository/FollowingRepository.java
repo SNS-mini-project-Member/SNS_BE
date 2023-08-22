@@ -14,6 +14,9 @@ import java.util.Optional;
 public interface FollowingRepository extends JpaRepository<Following, Long> {
 
 
+
+
+
     @Modifying
     @Query("DELETE FROM Following f WHERE f.userId = :followerUserId")
     public void deleteByFollowerUserId(@Param("followerUserId") Long followerUserId);

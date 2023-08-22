@@ -1,8 +1,8 @@
 package com.example.sns.user.domain.response;
 import com.example.sns.user.domain.dto.FollowerDto;
-import com.example.sns.user.domain.entity.Follower;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+        import com.example.sns.user.domain.entity.Follower;
+        import lombok.*;
+        import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter

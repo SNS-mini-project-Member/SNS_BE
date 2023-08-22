@@ -1,6 +1,9 @@
 package com.example.sns.user.repository;
 import com.example.sns.user.domain.entity.Follower;
 import com.example.sns.user.domain.entity.FriendRecommend;
+import com.example.sns.user.domain.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface FriendRecommendRepository extends JpaRepository<FriendRecommend,Long>{
+
+
 
     @Query("SELECT f FROM FriendRecommend f " +
             "WHERE f.friendRecommendationsSeq = :userId ")

@@ -18,10 +18,10 @@ public class Follower {
     @SequenceGenerator(name = "followers_seq", sequenceName = "followers_seq", allocationSize = 1)
     private Long followersSeq;
 
-    @Column(name="user_id",unique = true, nullable = false)
+    @Column(name="user_id", nullable = false)
     private Long userId;
 
-    @Column(name ="follower_user_id", unique = true, nullable = false)
+    @Column(name ="follower_user_id", nullable = false)
     private Long followerUserId;
 
     @Column(name ="create_at" , nullable = false)

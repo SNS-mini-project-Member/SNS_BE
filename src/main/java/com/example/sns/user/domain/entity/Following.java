@@ -19,15 +19,14 @@ public class Following {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followingsSeq;
 
-    @Column(name="user_id",unique = true, nullable = false)
+    @Column(name="user_id", nullable = false)
     private Long userId;
 
-    @Column(name ="following_user_id", unique = true, nullable = false)
+    @Column(name ="following_user_id", nullable = false)
     private Long followingUserId;
 
-    @Column(name ="create_at" , nullable = false)
+    @Column(name ="create_at", nullable = false)
     private Date createAt;
-
     @PrePersist
     protected void onCreate(){
         createAt = new Date();

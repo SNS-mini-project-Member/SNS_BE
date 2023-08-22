@@ -1,5 +1,6 @@
 package com.example.sns.user.controller;
 
+import com.example.sns.user.domain.entity.User;
 import com.example.sns.user.domain.request.FriendRecommendRequest;
 import com.example.sns.user.domain.request.FriendReqRequest;
 
@@ -8,6 +9,7 @@ import com.example.sns.user.domain.request.FriendShipRequest;
 import com.example.sns.user.domain.response.FriendRecommendResponse;
 import com.example.sns.user.domain.response.FriendReqResponse;
 import com.example.sns.user.domain.response.FriendShipResponse;
+import com.example.sns.user.domain.response.UserResponse;
 import com.example.sns.user.service.FriendService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,20 +27,17 @@ public class FriendController {
     private final FriendService friendService;
 
     @GetMapping("/friendShip")
-    public Page<FriendShipResponse> getAllFriendShip(
-            @RequestParam(value = "page",
-                    required = false,
-                    defaultValue = "0") Integer page,
-            @RequestParam(value = "size",
-                    required = false,
-                    defaultValue = "5") Integer size
-    ){
-        return friendService.getAllFriends(
-                PageRequest.of(page,size));
+    public Page<UserResponse> getFriendShip(
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") Integer size
+    ) {
+        Long userId = 11L;
+        Page<UserResponse> allFriends = friendService.getAllFriends(PageRequest.of(page, size), userId);
+        return allFriends;
     }
 
     @GetMapping("/getFriendRecommend")
-    public Page<FriendRecommendResponse> getAllFriendRecommend(
+    public Page<UserResponse> getAllFriendRecommend(
             @RequestParam(value = "page",
                     required = false,
                     defaultValue = "0") Integer page,
@@ -46,12 +45,13 @@ public class FriendController {
                     required = false,
                     defaultValue = "5") Integer size
     ){
-        return friendService.getAllFriendRecommend(
-                PageRequest.of(page,size));
+        Long userId = 11L;
+        Page<UserResponse> allFriendRecommend = friendService.getAllFriendRecommend(PageRequest.of(page, size),userId);
+        return allFriendRecommend;
     }
 
     @GetMapping("/getFriendReq")
-    public Page<FriendReqResponse> getAllFriendReq(
+    public Page<UserResponse> getAllFriendReq(
             @RequestParam(value = "page",
                     required = false,
                     defaultValue = "0") Integer page,
@@ -59,8 +59,9 @@ public class FriendController {
                     required = false,
                     defaultValue = "5") Integer size
     ){
-        return friendService.getAllFriendReq(
-                PageRequest.of(page,size));
+        Long userId = 11L;
+        Page<UserResponse> allFriendReq = friendService.getAllFriendReq(PageRequest.of(page, size), userId);
+        return allFriendReq;
     }
 
     @PostMapping("/addFriends")

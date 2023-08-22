@@ -19,13 +19,13 @@ public class FriendReq {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long friendRequestsSeq;
 
-    @Column(name="requester_id",unique = true, nullable = false)
+    @Column(name="requester_id", nullable = false)
     private Long requesterId;
 
-    @Column(name ="requestee_id", unique = true, nullable = false)
+    @Column(name ="requestee_id", nullable = false)
     private Long requesteeId;
 
-    @Column(name ="create_at" , nullable = false)
+    @Column(name ="create_at", nullable = false)
     private Date createAt;
 
     @PrePersist
