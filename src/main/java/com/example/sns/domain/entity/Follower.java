@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -27,10 +28,10 @@ public class Follower {
     private Long followerUserId;
 
     @Column(name ="create_at" , nullable = false)
-    private Date createAt;
+    private Timestamp createAt;
 
     @PrePersist
     protected void onCreate(){
-        createAt = new Date();
+        createAt = new Timestamp(System.currentTimeMillis());
     }
 }

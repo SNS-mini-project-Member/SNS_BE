@@ -5,9 +5,11 @@ import com.example.sns.domain.entity.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // 회원가입시 이메일 중복체크
@@ -21,7 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // 비밀번호 변경 (임시비밀번호를 받고 난 뒤 수정)
     @Query("update User u set u.userPassword=:password where u.userEmail=:email")
     Optional<User> updatePasswordByUserEmail(String email, String password);
-
-
 
 }

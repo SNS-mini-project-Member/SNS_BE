@@ -3,6 +3,7 @@ package com.example.sns.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -24,10 +25,10 @@ public class FriendShip {
     private Long friendshipsId;
 
     @Column(name ="create_at" , nullable = false)
-    private Date createAt;
+    private Timestamp createAt;
 
     @PrePersist
     protected void onCreate(){
-        createAt = new Date();
+        createAt = new Timestamp(System.currentTimeMillis());
     }
 }

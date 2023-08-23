@@ -1,6 +1,4 @@
 package com.example.sns.domain.request;
-
-
 import com.example.sns.domain.entity.User;
 
 public record SignupRequest(String email
@@ -17,5 +15,4 @@ public record SignupRequest(String email
                 .userPhone(phone)
                 .build();
     }
-
 }
