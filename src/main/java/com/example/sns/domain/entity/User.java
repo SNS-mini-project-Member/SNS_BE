@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userSeq;
+    private Long userSeq;
 
     @Column(unique = true, nullable = false, name = "email")
     private String userEmail;
@@ -54,7 +54,6 @@ public class User {
         this.followingsCount = 0;
         this.level = UserLevel.LEVEL_OK;
     }
-
 
 
 
