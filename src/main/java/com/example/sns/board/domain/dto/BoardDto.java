@@ -1,9 +1,7 @@
 package com.example.sns.board.domain.dto;
 
 import com.example.sns.board.domain.entity.BoardEntity;
-import jakarta.persistence.Column;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 

@@ -4,6 +4,7 @@ import com.example.sns.board.domain.condition.BoardCondition;
 import com.example.sns.board.domain.entity.*;
 
 import com.example.sns.board.domain.reponse.BoardResponse;
+import com.example.sns.board.domain.reponse.BookMarkResponse;
 import com.example.sns.board.domain.request.*;
 import com.example.sns.board.repository.*;
 import com.example.sns.user.domain.entity.User;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -30,27 +32,25 @@ public class BoardService {
     private final ReCommentRepository reCommentRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final CommentLikeRepository commentLikeRepository;
+    private final BookMarkRepository bookMarkRepository;
 
     public void boardInsert(BoardRequest boardRequest) {
         BoardEntity boardEntity = boardRequest.toEntity();
         boardRepository.save(boardEntity);
     }
 
-    public BoardResponse findById(Long userSeq){
+    public BoardResponse findByUserSeq(Long userSeq) {
         Optional<BoardEntity> byId = boardRepository.findById(userSeq);
-        BoardEntity boardEntity = byId.orElseThrow(()->
-                new RuntimeException("Not Found User by" +userSeq));
+        BoardEntity boardEntity = byId.orElseThrow(() ->
+                new RuntimeException("Not Found User by" + userSeq));
         return new BoardResponse(boardEntity);
     }
 
-    public Page<BoardResponse> boardAll(Long userSeq, PageRequest request){
-        Page<BoardEntity> all = boardRepository
-                .findAllByBoardSeqContaining(userSeq, request);
-        return all.map(BoardResponse::new);
-    }
-
-
-
+//    public Page<BoardResponse> boardAll(Long userSeq, PageRequest request){
+//        Page<BoardEntity> all = boardRepository
+//                .findAllByBoardSeqContaining(userSeq, request);
+//        return all.map(BoardResponse::new);
+//    }
 
 
     public void commentInsert(CommentRequest commentRequest) {
@@ -63,14 +63,6 @@ public class BoardService {
         ReCommentEntity reCommentEntity = reCommentRequest.toEntity();
         reCommentRepository.save(reCommentEntity);
     }
-
-
-
-
-
-
-
-
 
     public void boardLikes(BoardLikeRequest boardLikeRequest) {
         Long userSeq = boardLikeRequest.userSeq();
@@ -94,6 +86,51 @@ public class BoardService {
             boardEntity.setLikeCount(boardEntity.getLikeCount() + 1);
         }
     }
+
+    public void bookMark(BookMarkRequest bookMarkRequest) {
+        Long userSeq = bookMarkRequest.userSeq();
+        Long boardSeq = bookMarkRequest.boardSeq();
+
+        BookmarkEntity existingBook =
+                bookMarkRepository.findByUserAndBoard(
+                        User.builder().userSeq(userSeq).build()
+                        , BoardEntity.builder().boardSeq(boardSeq).build());
+
+        if (existingBook != null) {
+            bookMarkRepository.delete(existingBook);
+            BoardEntity boardEntity = boardRepository.findById(existingBook.getBoard().getBoardSeq()).get();
+            boardEntity.setBookMarkCount(boardEntity.getBookMarkCount() - 1);
+        } else {
+            BookmarkEntity newLike = bookMarkRequest.toEntity();
+            bookMarkRepository.save(newLike);
+            BoardEntity boardEntity = boardRepository.findById(newLike.getBoard().getBoardSeq()).get();
+            boardEntity.setBookMarkCount(boardEntity.getBookMarkCount() + 1);
+        }
+    }
+
+    public Page<BookMarkResponse> findByBookUser(Long userSeq, PageRequest request) {
+        Page<BookmarkEntity> byBoard = bookMarkRepository.findByUser_UserSeq(userSeq, request);
+        return byBoard.map(BookMarkResponse::new);
+    }
+
+    public Page<BookMarkResponse> findBookSeqAll(Long boardSeq, PageRequest request) {
+        Page<BookmarkEntity> byBoard = bookMarkRepository.findByBoard_BoardSeq(boardSeq, request);
+        return byBoard.map(BookMarkResponse::new);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

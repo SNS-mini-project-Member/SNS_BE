@@ -1,18 +1,12 @@
 package com.example.sns.board.domain.reponse;
 
-import com.example.sns.board.domain.dto.BoardDto;
 import com.example.sns.board.domain.entity.BoardEntity;
-import com.example.sns.board.store.UserBoard;
 import com.example.sns.user.domain.entity.User;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Negative;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.sql.Timestamp;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

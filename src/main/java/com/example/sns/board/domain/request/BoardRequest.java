@@ -18,6 +18,7 @@ public record BoardRequest(Long userSeq
                 .media(media)
                 .hashTag(hashTag)
                 .likeCount(0)
+                .bookMarkCount(0)
                 .createdAt(creatAt)
                 .build();
 

@@ -2,10 +2,7 @@ package com.example.sns.board.domain.entity;
 
 import com.example.sns.user.domain.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Entity
