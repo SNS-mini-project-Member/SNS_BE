@@ -2,6 +2,7 @@ package com.example.sns.controller;
 
 import com.example.sns.domain.request.LoginRequest;
 import com.example.sns.domain.request.SignupRequest;
+import com.example.sns.domain.request.TokenRequest;
 import com.example.sns.domain.request.UpdateRequest;
 import com.example.sns.domain.response.LoginResponse;
 import com.example.sns.service.UserService;
@@ -34,6 +35,11 @@ public class UserController {
     @PostMapping("/update")
     public void update(@RequestBody UpdateRequest updateRequest){
         userService.Update(updateRequest.email(), updateRequest.password());
+    }
+
+    @PostMapping("/validToken")
+    public String validToken(@RequestBody TokenRequest token) {
+        return userService.validateAndRefreshToken(token);
     }
 
 

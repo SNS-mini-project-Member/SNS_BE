@@ -32,6 +32,7 @@ public class SecurityConfig {
                 new AntPathRequestMatcher("/api/v1/users/login"),
                 new AntPathRequestMatcher("/api/v1/users/signup"),
                 new AntPathRequestMatcher("/api/v1/users/update"),
+                new AntPathRequestMatcher("/api/v1/users/validToken"),
                 new AntPathRequestMatcher("/api/v1/mail"),
                 new AntPathRequestMatcher("/api/v1/mail/pwChange"));
 
