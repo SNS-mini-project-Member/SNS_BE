@@ -2,10 +2,7 @@ package com.example.sns.board.domain.entity;
 
 import com.example.sns.user.domain.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -44,8 +41,9 @@ public class CommentEntity {
     private Timestamp createdAt;
 
     @Column(nullable = false, name = "likeCount", columnDefinition = "INT default 0")
-
+    @Setter
     private Integer likeCount;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = Timestamp.from(Instant.now());

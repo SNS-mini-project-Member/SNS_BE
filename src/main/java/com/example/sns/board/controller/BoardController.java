@@ -1,5 +1,6 @@
 package com.example.sns.board.controller;
 
+import com.example.sns.board.domain.reponse.BoardResponse;
 import com.example.sns.board.domain.request.*;
 import com.example.sns.board.repository.ReCommentRepository;
 import com.example.sns.board.service.BoardService;
@@ -19,6 +20,10 @@ public class BoardController {
     @ResponseStatus(HttpStatus.CREATED)
     public void insert(@RequestBody BoardRequest request) {
         boardService.boardInsert(request);
+    }
+    @GetMapping("{id}")
+    public BoardResponse getById(@PathVariable("id") Long userSeq){
+        return boardService.findById(userSeq);
     }
 
     @PostMapping("/comment")

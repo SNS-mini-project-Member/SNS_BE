@@ -1,15 +1,21 @@
 package com.example.sns.board.service;
 
+import com.example.sns.board.domain.condition.BoardCondition;
 import com.example.sns.board.domain.entity.*;
 
+import com.example.sns.board.domain.reponse.BoardResponse;
 import com.example.sns.board.domain.request.*;
 import com.example.sns.board.repository.*;
 import com.example.sns.user.domain.entity.User;
 import com.example.sns.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 
 @Service
@@ -30,6 +36,23 @@ public class BoardService {
         boardRepository.save(boardEntity);
     }
 
+    public BoardResponse findById(Long userSeq){
+        Optional<BoardEntity> byId = boardRepository.findById(userSeq);
+        BoardEntity boardEntity = byId.orElseThrow(()->
+                new RuntimeException("Not Found User by" +userSeq));
+        return new BoardResponse(boardEntity);
+    }
+
+    public Page<BoardResponse> boardAll(Long userSeq, PageRequest request){
+        Page<BoardEntity> all = boardRepository
+                .findAllByBoardSeqContaining(userSeq, request);
+        return all.map(BoardResponse::new);
+    }
+
+
+
+
+
     public void commentInsert(CommentRequest commentRequest) {
         CommentEntity commentEntity = commentRequest.toEntity();
         commentRepository.save(commentEntity);
@@ -41,6 +64,14 @@ public class BoardService {
         reCommentRepository.save(reCommentEntity);
     }
 
+
+
+
+
+
+
+
+
     public void boardLikes(BoardLikeRequest boardLikeRequest) {
         Long userSeq = boardLikeRequest.userSeq();
         Long boardSeq = boardLikeRequest.boardSeq();
@@ -50,15 +81,27 @@ public class BoardService {
                         User.builder().userSeq(userSeq).build()
                         , BoardEntity.builder().boardSeq(boardSeq).build());
 
-        if (existingLike != null){
+        if (existingLike != null) {
             // 이미 좋아요 누른 경우와 해당 데이터 삭제
             boardLikeRepository.delete(existingLike);
-        }else {
+            BoardEntity boardEntity = boardRepository.findById(existingLike.getBoard().getBoardSeq()).get();
+            boardEntity.setLikeCount(boardEntity.getLikeCount() - 1);
+        } else {
             // 좋아요를 안 누른 경우
             BoardLikeEntity newLike = boardLikeRequest.toEntity();
             boardLikeRepository.save(newLike);
+            BoardEntity boardEntity = boardRepository.findById(newLike.getBoard().getBoardSeq()).get();
+            boardEntity.setLikeCount(boardEntity.getLikeCount() + 1);
         }
     }
+
+
+
+
+
+
+
+
 
     public void commentLikes(CommentLikeRequest commentLikeRequest) {
         Long userSeq = commentLikeRequest.userSeq();
@@ -73,10 +116,13 @@ public class BoardService {
 
         if (existingLike != null){
             commentLikeRepository.delete(existingLike);
+            CommentEntity commentEntity = commentRepository.findById(existingLike.getBoard().getBoardSeq()).get();
+            commentEntity.setLikeCount(commentEntity.getLikeCount() -1);
         } else {
             CommentLikeEntity newLike = commentLikeRequest.toEntity();
             commentLikeRepository.save(newLike);
+            CommentEntity commentEntity = commentRepository.findById(newLike.getBoard().getBoardSeq()).get();
+            commentEntity.setLikeCount(commentEntity.getLikeCount() +1);
         }
     }
 }
-
