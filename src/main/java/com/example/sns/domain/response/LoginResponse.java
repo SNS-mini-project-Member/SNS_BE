@@ -9,7 +9,8 @@ public record LoginResponse (String email
         , Integer followersCount
         , Integer followingsCount
         , LocalDateTime createAt
-        , String token){
+        , String token
+        , String refreshToken){
 }
 
 // 나중에 필요한거 가져가면된다

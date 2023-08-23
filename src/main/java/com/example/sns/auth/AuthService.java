@@ -35,7 +35,7 @@ public class AuthService {
                 .claim("user_seq", user.getUserSeq())
                 .claim("email", user.getUserEmail())
                 .claim("user_level", user.getLevel())
-                .setExpiration(new Date(System.currentTimeMillis() + 300_000_000))
+                .setExpiration(new Date(System.currentTimeMillis() + 60000))
                 .signWith(key)
                 .compact();
         return compact;
@@ -45,8 +45,71 @@ public class AuthService {
     //X compact메소드를 호출하여 모든 설정이 적용된 JWT 생성 및 String타입으로 반환
 
 
-    public Map<String,Object> getClaims(String token){
-//        token = token.replace("Bearer ", "");
+    // dm..
+    public String makeRefreshToken(User user) {
+        // 토큰 발급
+        SecretKeySpec key = getSecretKeySpec();
+
+        String refreshToken = Jwts.builder()
+                .claim("user_seq", user.getUserSeq())
+                .claim("email", user.getUserEmail())
+                .claim("user_level", user.getLevel())
+                .setExpiration(new Date(System.currentTimeMillis() + 90000))
+                .signWith(key)
+                .compact();
+
+        return refreshToken;
+    }
+
+    public String validateAndRefreshToken(String token, String refreshToken) {
+
+        if (isTokenExpired(refreshToken)) {
+            return "refreshExpired";
+        }
+
+        if (isTokenExpired(token)) {
+            Map<String, Object> claims = getClaims(refreshToken);
+            String newAccessToken = generateNewAccessToken(claims);
+            return newAccessToken;
+        } else {
+            // 리프레시 토큰이 만료되지 않았을 경우, 기존의 유효한 엑세스 토큰을 반환
+            return null;
+        }
+    }
+
+    public boolean isTokenExpired(String token) {
+        try {
+            Claims claims = (Claims) getClaims(token);
+            Date expiration = claims.getExpiration();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    public String refreshAccessToken(String refreshToken) {
+        Map<String, Object> claims = getClaims(refreshToken);
+        // refreshToken에 저장된 정보를 활용하여 사용자를 확인하고, 새로운 엑세스 토큰을 발급합니다.
+
+        String newAccessToken = generateNewAccessToken(claims);
+        return newAccessToken;
+    }
+
+    private String generateNewAccessToken(Map<String, Object> claims) {
+        SecretKeySpec key = getSecretKeySpec();
+
+        String newAccessToken = Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(new Date(System.currentTimeMillis() + 300_000)) // 예: 5분 후
+                .signWith(key)
+                .compact();
+        return newAccessToken;
+    }
+
+
+
+    public Map<String, Object> getClaims(String token) {
+        token = token.replace("Bearer ", ""); // Bearer 접두사 제거
         return (Claims) Jwts.parserBuilder()
                 .setSigningKey(secretKey.getBytes())
                 .build()
