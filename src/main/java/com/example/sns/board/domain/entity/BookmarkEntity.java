@@ -22,5 +22,9 @@ public class BookmarkEntity {
     @JoinColumn(name = "boardSeq")
     private BoardEntity board;
 
+    @ManyToOne
+    @JoinColumn(name = "userSeq")
+    private User user;
+
 }
 

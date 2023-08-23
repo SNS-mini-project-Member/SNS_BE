@@ -16,10 +16,8 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
-
 
     @Column(unique = true, nullable = false, name = "email")
     private String userEmail;
@@ -27,26 +25,20 @@ public class User {
     @Column(nullable = false, name = "password")
     private String userPassword;
 
-
     @Column(nullable = false, name = "name")
     private String userName;
-
 
     @Column(nullable = false, name = "age")
     private Integer userAge;
 
-
     @Column(unique = true, nullable = false, name = "phone")
     private String userPhone;
-
 
     @Column(nullable = false, name = "followers_count")
     private Integer followersCount;
 
-
     @Column(nullable = false, name = "followings_count")
     private Integer followingsCount;
-
 
     @Column(nullable = true, name = "created_at")
     private Timestamp createdAt;
@@ -74,5 +66,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserBoard> userBoards;
 
-
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<BoardEntity> boardEntities;
 }
