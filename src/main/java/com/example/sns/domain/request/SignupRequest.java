@@ -1,18 +1,20 @@
-package com.example.sns.user.domain.request;
+package com.example.sns.domain.request;
 
 
-import com.example.sns.user.domain.entity.User;
+import com.example.sns.domain.entity.User;
 
-public record UsersRequest(String email
+public record SignupRequest(String email
         , String password
         , String name
-        , Integer age){
+        , String age
+        , String phone){
     public User toEntity(){
         return User.builder()
                 .userEmail(email)
                 .userPassword(password)
-                .userAge(age)
                 .userName(name)
+                .userAge(age)
+                .userPhone(phone)
                 .build();
     }
 
