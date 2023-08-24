@@ -8,6 +8,7 @@ import com.example.sns.domain.response.LoginResponse;
 import com.example.sns.exception.LoginFailException;
 import com.example.sns.repository.UserRepository;
 import com.example.sns.domain.request.SignupRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,12 @@ public class UserService {
         else System.out.println("이미 존재하는 Email");
     }
 
-    public LoginResponse login(LoginRequest request) {
+    public LoginResponse login(LoginRequest request, HttpServletResponse response) {
         Optional<User> byEmailAndPw = userRepository.findByEmailAndPassword(request.email(), request.password());
         User user = byEmailAndPw.orElseThrow(() -> new LoginFailException("해당 유저가 존재하지 않습니다.."));
 
-        String accessToken = authService.makeToken(user); // 엑세스 토큰 생성
-        String refreshToken = authService.makeRefreshToken(user); // 리프레시 토큰 생성
+        String accessToken = authService.makeToken(user, response); // 엑세스 토큰 생성
+        String refreshToken = authService.makeRefreshTokenAndSetCookie(user, response); // 리프레시 토큰
 
         return new LoginResponse(
                 user.getUserEmail(),
@@ -48,8 +49,8 @@ public class UserService {
         );
     }
 
-    public String validateAndRefreshToken(TokenRequest token) {
-        return authService.validateAndRefreshToken(token.token(), token.refreshToken());
+    public String validateAndRefreshToken(TokenRequest token, HttpServletResponse response) {
+        return authService.validateAndRefreshTokenAndSetCookie(token.token(), token.refreshToken(), response);
     }
 
 

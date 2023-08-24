@@ -6,6 +6,7 @@ import com.example.sns.domain.request.TokenRequest;
 import com.example.sns.domain.request.UpdateRequest;
 import com.example.sns.domain.response.LoginResponse;
 import com.example.sns.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(
-            @RequestBody LoginRequest request){
-        return userService.login(request);
+    public LoginResponse login(@RequestBody LoginRequest request, HttpServletResponse response){
+        return userService.login(request, response);
     }
 
     @PostMapping("/update")
@@ -38,8 +38,8 @@ public class UserController {
     }
 
     @PostMapping("/validToken")
-    public String validToken(@RequestBody TokenRequest token) {
-        return userService.validateAndRefreshToken(token);
+    public String validToken(@RequestBody TokenRequest token, HttpServletResponse response) {
+        return userService.validateAndRefreshToken(token, response);
     }
 
 
