@@ -13,6 +13,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -29,13 +34,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         OrRequestMatcher publicUrls = new OrRequestMatcher(
-//                new AntPathRequestMatcher("/api/v1/users/login"),
-//                new AntPathRequestMatcher("/api/v1/users/signup"),
-//                new AntPathRequestMatcher("/api/v1/users/update"),
-//                new AntPathRequestMatcher("/api/v1/mail"),
-//                new AntPathRequestMatcher("/api/v1/mail/pwChange"),
-                new AntPathRequestMatcher("/**")
-        );
+
+                new AntPathRequestMatcher("/api/v1/users/login"),
+                new AntPathRequestMatcher("/api/v1/users/signup"),
+                new AntPathRequestMatcher("/api/v1/users/update"),
+                new AntPathRequestMatcher("/api/v1/users/validToken"),
+                new AntPathRequestMatcher("/api/v1/mail"),
+                new AntPathRequestMatcher("/api/v1/mail/pwChange"));
 
         http
                 .httpBasic(httpBasic -> httpBasic.disable())
