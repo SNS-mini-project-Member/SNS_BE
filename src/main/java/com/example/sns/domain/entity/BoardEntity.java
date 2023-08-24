@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Entity @Builder
@@ -19,31 +21,31 @@ public class BoardEntity {
     @Column(nullable = false, name = "contents")
     private String contents;
 
-    @Column(nullable = false, name = "media")
+    @Column(name = "media")
     private String media;
 
 
-    @Column(nullable = false, name = "hash_tag")
-    private String hashTag;
-
-    @Column(nullable = true, name = "created_at")
-    private Timestamp createdAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @Setter
-    @Column(nullable = false, name = "like_count", columnDefinition = "INT default 0")
+    @Column(name = "like_count", columnDefinition = "INT default 0")
     private Integer likeCount;
 
     @Setter
-    @Column(nullable = false, name = "board_count", columnDefinition = "INT default 0")
+    @Column(name = "board_count", columnDefinition = "INT default 0")
     private Integer bookMarkCount;
 
     @Setter
-    @Column(nullable = false, name = "comment_count", columnDefinition = "INT default 0")
+    @Column(name = "comment_count", columnDefinition = "INT default 0")
     private Integer commentCount;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = Timestamp.from(Instant.now());
+        this.createdAt = LocalDateTime.now();
+        this.likeCount = 0;
+        this.bookMarkCount = 0;
+        this.commentCount = 0;
     }
 
     @ManyToOne

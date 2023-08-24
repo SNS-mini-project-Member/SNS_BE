@@ -40,7 +40,9 @@ public class SecurityConfig {
                 new AntPathRequestMatcher("/api/v1/users/validToken"),
                 new AntPathRequestMatcher("/api/v1/mail"),
                 new AntPathRequestMatcher("/api/v1/**"),
-                new AntPathRequestMatcher("/api/v1/mail/pwChange"));
+                new AntPathRequestMatcher("/api/v1/boards"),
+                new AntPathRequestMatcher("/api/v1/mail/pwChange")
+        );
 
         http
                 .httpBasic(httpBasic -> httpBasic.disable())

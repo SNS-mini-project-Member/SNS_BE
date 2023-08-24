@@ -16,7 +16,7 @@ public class BoardResponse  {
     private Long boardSeq;
     private String contents;
     private String media;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
     private Integer likeCount;
     private UserBoardDto userBoards;
 

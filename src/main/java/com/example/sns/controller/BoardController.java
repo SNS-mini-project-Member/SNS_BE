@@ -25,9 +25,13 @@ public class BoardController {
 
 
     @PostMapping("/boards")// 게시물 작성 v
-    @ResponseStatus(HttpStatus.CREATED)
     public void boardInsert(@RequestBody BoardRequest request) {
+        System.out.println("작성자" + request.userSeq());
+        System.out.println("내용" + request.contents());
+        System.out.println(" 내용2 " + request.media());
         boardService.boardInsert(request);
+
+
     }
 
 

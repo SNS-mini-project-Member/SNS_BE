@@ -45,7 +45,8 @@ public class UserService {
                 user.getFollowingsCount(),
                 user.getCreatedAt(),
                 accessToken,
-                refreshToken
+                refreshToken,
+                user.getUserSeq()
         );
     }
 
