@@ -38,6 +38,10 @@ public class BoardEntity {
     @Column(nullable = false, name = "board_count", columnDefinition = "INT default 0")
     private Integer bookMarkCount;
 
+    @Setter
+    @Column(nullable = false, name = "comment_count", columnDefinition = "INT default 0")
+    private Integer commentCount;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = Timestamp.from(Instant.now());

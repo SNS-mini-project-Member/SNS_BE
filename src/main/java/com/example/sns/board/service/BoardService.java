@@ -53,9 +53,17 @@ public class BoardService {
 //    }
 
 
+    // 게시물 댓글 작성 로직 + 게시물에 댓글 작성하면 +1
     public void commentInsert(CommentRequest commentRequest) {
         CommentEntity commentEntity = commentRequest.toEntity();
         commentRepository.save(commentEntity);
+
+        Long boardSeq = commentRequest.boardSeq();
+        BoardEntity board = boardRepository.findById(boardSeq).orElse(null);
+        if (board != null) {
+            board.setCommentCount(board.getCommentCount() + 1);
+            boardRepository.save(board);
+        }
 
     }
 

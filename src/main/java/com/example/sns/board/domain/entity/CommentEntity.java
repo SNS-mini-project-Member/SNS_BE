@@ -44,6 +44,10 @@ public class CommentEntity {
     @Setter
     private Integer likeCount;
 
+    @Column(nullable = false, name = "commentCount", columnDefinition = "INT default 0")
+    @Setter
+    private Integer commentCount;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = Timestamp.from(Instant.now());

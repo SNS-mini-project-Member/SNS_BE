@@ -11,6 +11,7 @@ public record CommentRequest(Long userSeq
         , Long boardSeq
         , String comment
         , Integer likeCount
+        , Integer commentCount
         , Timestamp createAt) {
 
     public CommentEntity toEntity() {
@@ -19,6 +20,7 @@ public record CommentRequest(Long userSeq
                 .board(BoardEntity.builder().boardSeq(boardSeq).build())
                 .comment(comment)
                 .likeCount(0)
+                .commentCount(0)
                 .createdAt(createAt)
                 .build();
     }
