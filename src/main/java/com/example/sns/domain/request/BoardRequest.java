@@ -6,21 +6,13 @@ import java.sql.Timestamp;
 
 public record BoardRequest(Long userSeq
         , String contents
-        , String media
-        , Integer likeCount
-        , Integer bookMarkCount
-        , Integer commentCount
-        , Timestamp creatAt) {
+        , String media) {
 
     public BoardEntity toEntity() {
         return BoardEntity.builder()
                 .user(User.builder().userSeq(userSeq).build())
                 .contents(contents)
                 .media(media)
-                .likeCount(0)
-                .bookMarkCount(0)
-                .commentCount(0)
-                .createdAt(creatAt)
                 .build();
 
     }

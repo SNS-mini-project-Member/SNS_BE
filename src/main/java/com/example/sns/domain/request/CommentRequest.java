@@ -4,13 +4,14 @@ import com.example.sns.domain.entity.CommentEntity;
 import com.example.sns.domain.entity.User;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public record CommentRequest(Long userSeq
         , Long boardSeq
         , String comment
         , Integer likeCount
         , Integer commentCount
-        , Timestamp createAt) {
+        , LocalDateTime createAt) {
 
     public CommentEntity toEntity() {
         return CommentEntity.builder()

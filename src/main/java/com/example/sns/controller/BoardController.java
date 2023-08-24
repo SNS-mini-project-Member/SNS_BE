@@ -1,7 +1,6 @@
 package com.example.sns.controller;
 
 
-import com.example.sns.domain.entity.BoardEntity;
 import com.example.sns.domain.request.*;
 import com.example.sns.domain.response.BoardResponse;
 import com.example.sns.domain.response.BookMarkResponse;
@@ -9,7 +8,6 @@ import com.example.sns.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.query.PartTreeJpaQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +23,13 @@ public class BoardController {
 
 
     @PostMapping("/boards")// 게시물 작성 v
-    @ResponseStatus(HttpStatus.CREATED)
     public void boardInsert(@RequestBody BoardRequest request) {
+        System.out.println("작성자" + request.userSeq());
+        System.out.println("내용" + request.contents());
+        System.out.println(" 내용2 " + request.media());
         boardService.boardInsert(request);
+
+
     }
 
 
@@ -63,7 +65,7 @@ public class BoardController {
 
 
     @GetMapping("/board") // 게시물 정보
-    public List<BoardEntity> findAll() {
+    public List<BoardResponse> findAll() {
         return boardService.findAll();
     }
 

@@ -30,8 +30,9 @@ public class BoardService {
     private final CommentLikeRepository commentLikeRepository;
     private final BookMarkRepository bookMarkRepository;
 
-    public List<BoardEntity> findAll() {
-        return boardRepository.findAll();
+    public List<BoardResponse> findAll() {
+        List<BoardEntity> all = boardRepository.findAll();
+        return all.stream().map(BoardResponse::new).toList();
     }
     public void boardInsert(BoardRequest boardRequest) {
         BoardEntity boardEntity = boardRequest.toEntity();
@@ -93,26 +94,22 @@ public class BoardService {
         reCommentRepository.save(reCommentEntity);
     }
 
-    public void boardLikes(BoardLikeRequest boardLikeRequest) {
-        Long userSeq = boardLikeRequest.userSeq();
-        Long boardSeq = boardLikeRequest.boardSeq();
+    public void boardLikes(BoardLikeRequest request) {
+        User userSeq = User.builder().userSeq(request.userSeq()).build();
+        BoardEntity boardSeq = BoardEntity.builder().boardSeq(request.boardSeq()).build();
+        Optional<BoardLikeEntity> byId = boardLikeRepository.findByUser_UserSeqAndBoard_BoardSeq(userSeq, boardSeq);
+        Long findId = boardLikeRepository.findBySeq(userSeq, boardSeq);
 
-        BoardLikeEntity existingLike =
-                boardLikeRepository.findByUserAndBoard(
-                        User.builder().userSeq(userSeq).build()
-                        , BoardEntity.builder().boardSeq(boardSeq).build());
 
-        if (existingLike != null) {
+        if (!byId.isEmpty()) {
             // 이미 좋아요 누른 경우와 해당 데이터 삭제
-            boardLikeRepository.delete(existingLike);
-            BoardEntity boardEntity = boardRepository.findById(existingLike.getBoard().getBoardSeq()).get();
-            boardEntity.setLikeCount(boardEntity.getLikeCount() - 1);
+            System.out.println("이미 있따");
+            boardLikeRepository.deleteById(findId);
+
         } else {
             // 좋아요를 안 누른 경우
-            BoardLikeEntity newLike = boardLikeRequest.toEntity();
-            boardLikeRepository.save(newLike);
-            BoardEntity boardEntity = boardRepository.findById(newLike.getBoard().getBoardSeq()).get();
-            boardEntity.setLikeCount(boardEntity.getLikeCount() + 1);
+            System.out.println("없다");
+            boardLikeRepository.save(request.toEntity());
         }
     }
 

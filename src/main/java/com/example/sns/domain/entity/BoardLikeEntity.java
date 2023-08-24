@@ -18,7 +18,7 @@ public class BoardLikeEntity {
     private Long boardLikeSeq;
 
     @ManyToOne
-    @JoinColumn(name = "userSeq")
+    @JoinColumn(name = "userName")
     private User user;
 
     @ManyToOne

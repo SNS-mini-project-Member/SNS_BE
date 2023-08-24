@@ -16,10 +16,11 @@ public class BoardResponse  {
     private String contents;
     private List<CommentDto> comment;
     private String media;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
     private Integer likeCount;
     private UserBoardDto userBoards;
     private List<BookDto> book;
+    private List<BoardLikeDto> boardLikeEntityList;
 
 
     public BoardResponse(BoardEntity boardEntity) {
@@ -31,6 +32,7 @@ public class BoardResponse  {
         this.userBoards = new UserBoardDto(boardEntity.getUser());
         this.comment = boardEntity.getCommentEntities().stream().map(CommentDto::new).toList();
         this.book = boardEntity.getBookmarkEntities().stream().map(BookDto::new).toList();
+        this.boardLikeEntityList = boardEntity.getBoardLikeEntities().stream().map(BoardLikeDto::new).toList();
     }
 
     @Getter
@@ -61,7 +63,7 @@ public class BoardResponse  {
         private Long commentSeq;
         private String userName;
         private String comment;
-        private Timestamp createdAt;
+        private LocalDateTime createdAt;
         private List<ReCommentDto> reCommentEntity;
 
         public CommentDto(CommentEntity commentEntity) {
@@ -77,7 +79,7 @@ public class BoardResponse  {
     class ReCommentDto {
         private Long ReCommentSeq;
         private String reComment;
-        private Timestamp createdAt;
+        private LocalDateTime createdAt;
         private String userName;
         private Long commentSeq;
 
@@ -100,6 +102,19 @@ public class BoardResponse  {
             this.bookMarkSeq = bookmarkEntity.getBookMarkSeq();
             this.boardSeq = bookmarkEntity.getBoard().getBoardSeq();
             this.userName = bookmarkEntity.getUser().getUserName();
+        }
+    }
+
+    @Getter
+    class BoardLikeDto {
+        private Long boardLikeDto;
+        private String userName;
+        private Long boardSeq;
+
+        public BoardLikeDto(BoardLikeEntity boardLikeEntity) {
+            this.boardLikeDto = boardLikeEntity.getBoardLikeSeq();
+            this.userName = boardLikeEntity.getUser().getUserName();
+            this.boardSeq = boardLikeEntity.getBoard().getBoardSeq();
         }
     }
 }

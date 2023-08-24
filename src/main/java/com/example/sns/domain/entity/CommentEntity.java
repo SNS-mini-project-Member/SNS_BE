@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -37,7 +38,7 @@ public class CommentEntity {
     private String comment;
 
     @Column(nullable = true, name = "created_at")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false, name = "likeCount", columnDefinition = "INT default 0")
     @Setter
@@ -49,7 +50,7 @@ public class CommentEntity {
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = Timestamp.from(Instant.now());
+        this.createdAt = LocalDateTime.now();
     }
 
 

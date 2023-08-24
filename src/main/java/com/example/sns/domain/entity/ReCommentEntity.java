@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -24,7 +25,7 @@ public class ReCommentEntity {
     private String reComment;
 
     @Column(nullable = true, name = "created_at")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "userSeq")
