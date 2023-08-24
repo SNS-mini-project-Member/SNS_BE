@@ -40,10 +40,32 @@ public class BoardService {
 
     public BoardResponse findByUserSeq(Long userSeq) {
         Optional<BoardEntity> byId = boardRepository.findById(userSeq);
-        BoardEntity boardEntity = byId.orElseThrow(() ->
-                new RuntimeException("Not Found User by" + userSeq));
-        return new BoardResponse(boardEntity);
+
+        if (byId.isPresent()) {
+            BoardEntity boardEntity = byId.get();
+
+            List<CommentEntity> byComment = commentRepository.findByBoard_BoardSeq(userSeq);
+            List<ReCommentEntity> byReComment = reCommentRepository.findByComment_Board_BoardSeq(userSeq);
+
+            boardEntity.getCommentEntities().addAll(byComment);
+            boardEntity.getCommentEntities().forEach(commentEntity
+                    -> commentEntity.getReCommentEntity().addAll(byReComment));
+
+//            BoardEntity boardEntity = byId.orElseThrow(() ->
+//                    new RuntimeException("Not Found User by" + userSeq));
+//            return new BoardResponse(boardEntity);
+            return new BoardResponse(boardEntity);
+        } else {
+            throw new RuntimeException("Not Found User by" + userSeq);
+        }
     }
+//========================
+//    public BoardResponse findByCommentSeq(Long commentSeq) {
+//        Optional<CommentEntity> byCommentId = commentRepository.findById(commentSeq);
+//        CommentEntity commentEntity = byCommentId.orElseThrow(() ->
+//                new RuntimeException("Not Found User by" + commentSeq));
+//        return;
+//    }
 
 //    public Page<BoardResponse> boardAll(Long userSeq, PageRequest request){
 //        Page<BoardEntity> all = boardRepository

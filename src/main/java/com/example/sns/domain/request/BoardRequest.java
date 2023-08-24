@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 public record BoardRequest(Long userSeq
         , String contents
         , String media
-        , String hashTag
         , Integer likeCount
         , Integer bookMarkCount
         , Integer commentCount
@@ -18,7 +17,6 @@ public record BoardRequest(Long userSeq
                 .user(User.builder().userSeq(userSeq).build())
                 .contents(contents)
                 .media(media)
-                .hashTag(hashTag)
                 .likeCount(0)
                 .bookMarkCount(0)
                 .commentCount(0)

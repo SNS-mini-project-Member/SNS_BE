@@ -22,10 +22,6 @@ public class BoardEntity {
     @Column(nullable = false, name = "media")
     private String media;
 
-
-    @Column(nullable = false, name = "hash_tag")
-    private String hashTag;
-
     @Column(nullable = true, name = "created_at")
     private Timestamp createdAt;
 

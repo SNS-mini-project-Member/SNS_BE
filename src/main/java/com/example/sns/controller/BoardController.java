@@ -67,10 +67,12 @@ public class BoardController {
         return boardService.findAll();
     }
 
-    @GetMapping("/board/{id}") // 게시물 검색하면 유저에 대한 정보 v
-    public BoardResponse getById(@PathVariable("id") Long userSeq) {
-        return boardService.findByUserSeq(userSeq);
+    @GetMapping("/board/{id}") // 특정 게시물을 검색하면, 유저에 대한 정보 v, ...댓글이 나오고 댓글의 대한 댓글도 나와야함...ing,
+    public BoardResponse getById(@PathVariable("id") Long boardSeq) {
+        return boardService.findByUserSeq(boardSeq);
     }
+
+
 
 
     @GetMapping("/userBook/{userSeq}")// 유저가 즐겨찾기한 정보 ???
