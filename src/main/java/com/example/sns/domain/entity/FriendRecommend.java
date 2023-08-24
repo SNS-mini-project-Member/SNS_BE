@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -21,18 +22,14 @@ public class FriendRecommend {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long friendRecommendationsSeq;
 
-    @Column(name="user_id",unique = true, nullable = false)
+    @Column(name="user_id", nullable = false)
     private Long userId;
 
-    @Column(name ="recommended_user_id", unique = true, nullable = false)
+    @Column(name ="recommended_user_id", nullable = false)
     private Long recommendedUserId;
 
+    @CreationTimestamp
     @Column(name ="create_at" , nullable = false)
     private Timestamp createAt;
-
-    @PrePersist
-    protected void onCreate(){
-        createAt = new Timestamp(System.currentTimeMillis());
-    }
 
 }

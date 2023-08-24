@@ -4,6 +4,7 @@ import com.example.sns.domain.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -15,9 +16,9 @@ public class GetAllFollowerResponse {
     private String followerName;
     private String followerAge;
     private Boolean friend;
-    private Date createAt;
+    private LocalDateTime createAt;
 
-    public GetAllFollowerResponse(User user, Follower follower, Boolean friendShip, Date createAt) {
+    public GetAllFollowerResponse(User user, Follower follower, Boolean friendShip, LocalDateTime createAt) {
         this.userId = user.getUserSeq();
         this.followerEmail = user.getUserEmail();
         this.followerName = user.getUserName();

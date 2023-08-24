@@ -3,13 +3,14 @@ import com.example.sns.domain.entity.BoardEntity;
 import lombok.Getter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 public class BoardDto {
     private Long boardSeq;
     private String contents;
     private String media;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
     private Integer likeCount;
 
     public BoardDto(BoardEntity boardEntity) {

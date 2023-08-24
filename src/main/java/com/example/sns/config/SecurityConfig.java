@@ -29,11 +29,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         OrRequestMatcher publicUrls = new OrRequestMatcher(
-                new AntPathRequestMatcher("/api/v1/users/login"),
-                new AntPathRequestMatcher("/api/v1/users/signup"),
-                new AntPathRequestMatcher("/api/v1/users/update"),
-                new AntPathRequestMatcher("/api/v1/mail"),
-                new AntPathRequestMatcher("/api/v1/mail/pwChange"));
+//                new AntPathRequestMatcher("/api/v1/users/login"),
+//                new AntPathRequestMatcher("/api/v1/users/signup"),
+//                new AntPathRequestMatcher("/api/v1/users/update"),
+//                new AntPathRequestMatcher("/api/v1/mail"),
+//                new AntPathRequestMatcher("/api/v1/mail/pwChange"),
+                new AntPathRequestMatcher("/**")
+        );
 
         http
                 .httpBasic(httpBasic -> httpBasic.disable())

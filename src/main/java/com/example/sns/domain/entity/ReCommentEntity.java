@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -23,8 +25,9 @@ public class ReCommentEntity {
     @Column(nullable = false, name = "reComment")
     private String reComment;
 
-    @Column(nullable = true, name = "created_at")
-    private Timestamp createdAt;
+    @CreationTimestamp
+    @Column(nullable = false, name = "created_at")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "userSeq")
@@ -37,4 +40,5 @@ public class ReCommentEntity {
     @ManyToOne
     @JoinColumn(name = "commentSeq")
     private CommentEntity comment;
+
 }

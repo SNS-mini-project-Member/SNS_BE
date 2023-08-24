@@ -2,9 +2,11 @@ package com.example.sns.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -36,18 +38,12 @@ public class CommentEntity {
     @Column(nullable = false, name = "comment")
     private String comment;
 
-    @Column(nullable = true, name = "created_at")
-    private Timestamp createdAt;
+    @CreationTimestamp
+    @Column(nullable = false, name = "created_at")
+    private LocalDateTime createdAt;
 
     @Column(nullable = false, name = "likeCount", columnDefinition = "INT default 0")
     @Setter
     private Integer likeCount;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = Timestamp.from(Instant.now());
-    }
-
-
 
 }

@@ -1,5 +1,4 @@
-package com.example.sns.service;
-
+package com.example.sns.board.service;
 import com.example.sns.domain.entity.*;
 import com.example.sns.domain.request.*;
 import com.example.sns.domain.response.BoardResponse;
@@ -14,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 
-@Service("customBoardService")
+@Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j

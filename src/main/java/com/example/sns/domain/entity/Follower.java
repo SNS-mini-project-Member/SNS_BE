@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -27,11 +29,8 @@ public class Follower {
     @Column(name ="follower_user_id", nullable = false)
     private Long followerUserId;
 
+    @CreationTimestamp
     @Column(name ="create_at" , nullable = false)
-    private Timestamp createAt;
+        private LocalDateTime createAt;
 
-    @PrePersist
-    protected void onCreate(){
-        createAt = new Timestamp(System.currentTimeMillis());
-    }
 }

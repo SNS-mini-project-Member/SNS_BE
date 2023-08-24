@@ -4,6 +4,7 @@ import com.example.sns.domain.entity.BoardEntity;
 import lombok.Getter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 public class BookMarkDto {
@@ -14,9 +15,9 @@ public class BookMarkDto {
 
     private String media;
 
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
-    public BookMarkDto(Long boardSeq, String contents, String media, Timestamp createdAt) {
+    public BookMarkDto(Long boardSeq, String contents, String media, LocalDateTime createdAt) {
         this.boardSeq = boardSeq;
         this.contents = contents;
         this.media = media;

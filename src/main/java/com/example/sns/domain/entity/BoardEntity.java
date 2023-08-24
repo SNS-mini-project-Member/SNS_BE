@@ -3,9 +3,11 @@ package com.example.sns.domain.entity;
 import com.example.sns.board.store.UserBoard;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Entity @Builder
@@ -26,17 +28,13 @@ public class BoardEntity {
     @Column(nullable = false, name = "hash_tag")
     private String hashTag;
 
+    @CreationTimestamp
     @Column(nullable = true, name = "created_at")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @Setter
     @Column(nullable = false, name = "like_count", columnDefinition = "INT default 0")
     private Integer likeCount;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = Timestamp.from(Instant.now());
-    }
 
     @ManyToOne
     @JoinColumn(name = "userSeq") // 외래키를 userSeq로 지정

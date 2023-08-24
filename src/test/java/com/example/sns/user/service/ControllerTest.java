@@ -34,7 +34,6 @@ class ControllerTest {
             FollowerRequest followerRequest = new FollowerRequest(followerId, followingId, age, userName, userEmail, userPhone);
             FollowingRequest followingRequest = new FollowingRequest(followingId, followerId);
             FollowRequest followRequest = new FollowRequest(followingRequest, followerRequest);
-
             followService.saveFollower(followRequest);
         }
     }

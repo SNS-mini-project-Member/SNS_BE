@@ -8,8 +8,7 @@ import java.sql.Timestamp;
 public record CommentRequest(Long userSeq
         , Long boardSeq
         , String comment
-        , Integer likeCount
-        , Timestamp createAt) {
+        , Integer likeCount) {
 
     public CommentEntity toEntity() {
         return CommentEntity.builder()
@@ -17,7 +16,6 @@ public record CommentRequest(Long userSeq
                 .board(BoardEntity.builder().boardSeq(boardSeq).build())
                 .comment(comment)
                 .likeCount(0)
-                .createdAt(createAt)
                 .build();
     }
 
