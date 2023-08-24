@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class FriendController {
 
-
     private final FriendService friendService;
 
     @GetMapping("/friendShip")
@@ -24,10 +23,19 @@ public class FriendController {
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(value = "size", required = false, defaultValue = "100") Integer size
     ) {
-        Long userId = 11L;
+        Long userId = 21l;
         Page<UserResponse> allFriends = friendService.getAllFriends(PageRequest.of(page, size), userId);
         return allFriends;
     }
+
+    @GetMapping("/friendByName/{userName}")
+    public UserResponse getFriendByName(
+           @PathVariable("userName") String userName
+    ) {
+        UserResponse myFriend = friendService.getFriendByName(userName);
+        return myFriend;
+    }
+
 
     @GetMapping("/getFriendRecommend")
     public Page<UserResponse> getAllFriendRecommend(
