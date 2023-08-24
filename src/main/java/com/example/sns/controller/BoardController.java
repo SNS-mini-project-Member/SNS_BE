@@ -1,6 +1,7 @@
 package com.example.sns.controller;
 
 
+import com.example.sns.domain.entity.BoardEntity;
 import com.example.sns.domain.request.*;
 import com.example.sns.domain.response.BoardResponse;
 import com.example.sns.domain.response.BookMarkResponse;
@@ -12,12 +13,15 @@ import org.springframework.data.jpa.repository.query.PartTreeJpaQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-
+@CrossOrigin("*")
 public class BoardController {
     private final BoardService boardService;
+
 
 
     @PostMapping("/boards")// 게시물 작성 v
@@ -57,6 +61,12 @@ public class BoardController {
         boardService.bookMark(request);
     }
 
+
+    @GetMapping("/board") // 게시물 정보
+    public List<BoardEntity> findAll() {
+        return boardService.findAll();
+    }
+
     @GetMapping("/board/{id}") // 게시물 검색하면 유저에 대한 정보 v
     public BoardResponse getById(@PathVariable("id") Long userSeq) {
         return boardService.findByUserSeq(userSeq);
@@ -79,7 +89,7 @@ public class BoardController {
         return boardService.findByBookUser(userSeq, request);
     }
 
-    @GetMapping("/boardBook/{boardSeq}") // 게시물을 조회하면 유저 정보 v
+    @GetMapping("/boardBook/{boardSeq}") // 게시물을 조회하면 북마크 유저 정보 v
     public Page<BookMarkResponse> getByBookSeqAll(
             @RequestParam(name = "boardSeq",
                     required = false,

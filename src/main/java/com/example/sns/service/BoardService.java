@@ -30,6 +30,9 @@ public class BoardService {
     private final CommentLikeRepository commentLikeRepository;
     private final BookMarkRepository bookMarkRepository;
 
+    public List<BoardEntity> findAll() {
+        return boardRepository.findAll();
+    }
     public void boardInsert(BoardRequest boardRequest) {
         BoardEntity boardEntity = boardRequest.toEntity();
         boardRepository.save(boardEntity);
