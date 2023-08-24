@@ -4,11 +4,14 @@ import com.example.sns.domain.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthService {
@@ -16,7 +19,6 @@ public class AuthService {
     @Value("${jwt.secret}")
     private String secretKey;
     //X AuthService 클래스 선언하며, 변수로 문자열 secretKey를 선언함. 그 값은 @Value로 가져옴(application.yml으로부터)
-
 
     private SecretKeySpec getSecretKeySpec() {
         SignatureAlgorithm hs384 = SignatureAlgorithm.HS384;
@@ -28,7 +30,18 @@ public class AuthService {
     //X hs384은 암호화 알고리즘 방식의 이름
 
 
-    public String makeToken(User user) {
+    public void addTokenToCookie(HttpServletResponse response, String token, String type) {
+        Cookie cookie = new Cookie("access_token", token);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false); // Only set this to true if using HTTPS
+        cookie.setMaxAge((int) TimeUnit.MINUTES.toSeconds(10)); // Set the token's expiration time
+        cookie.setDomain("http//localhost:8080");
+        cookie.setPath("/"); // Set the cookie path
+
+        response.addHeader(type, cookie.toString());
+    }
+
+    public String makeToken(User user, HttpServletResponse response) {
         SecretKeySpec key = getSecretKeySpec();
 
         String compact = Jwts.builder()
@@ -38,6 +51,9 @@ public class AuthService {
                 .setExpiration(new Date(System.currentTimeMillis() + 60000))
                 .signWith(key)
                 .compact();
+
+        addTokenToCookie(response, compact, "token");
+
         return compact;
     }
     //X JWT의 페이로드 = 메타데이터, 클레임이라는 정보들이 모인 것
@@ -46,33 +62,35 @@ public class AuthService {
 
 
     // dm..
-    public String makeRefreshToken(User user) {
-        // 토큰 발급
+    public String makeRefreshTokenAndSetCookie(User user, HttpServletResponse response) {
         SecretKeySpec key = getSecretKeySpec();
 
         String refreshToken = Jwts.builder()
                 .claim("user_seq", user.getUserSeq())
                 .claim("email", user.getUserEmail())
                 .claim("user_level", user.getLevel())
-                .setExpiration(new Date(System.currentTimeMillis() + 90000))
+                .setExpiration(new Date(System.currentTimeMillis() + 300000))
                 .signWith(key)
                 .compact();
+
+        addTokenToCookie(response, refreshToken, "refreshToken");
 
         return refreshToken;
     }
 
-    public String validateAndRefreshToken(String token, String refreshToken) {
-
+    public String validateAndRefreshTokenAndSetCookie(String token, String refreshToken, HttpServletResponse response) {
         if (isTokenExpired(refreshToken)) {
+            // Handle refresh token expiration
             return "refreshExpired";
         }
 
         if (isTokenExpired(token)) {
             Map<String, Object> claims = getClaims(refreshToken);
             String newAccessToken = generateNewAccessToken(claims);
+            addTokenToCookie(response, newAccessToken, "token");
             return newAccessToken;
         } else {
-            // 리프레시 토큰이 만료되지 않았을 경우, 기존의 유효한 엑세스 토큰을 반환
+            // Handle access token not expired
             return null;
         }
     }
@@ -85,14 +103,6 @@ public class AuthService {
         } catch (Exception e) {
             return true;
         }
-    }
-
-    public String refreshAccessToken(String refreshToken) {
-        Map<String, Object> claims = getClaims(refreshToken);
-        // refreshToken에 저장된 정보를 활용하여 사용자를 확인하고, 새로운 엑세스 토큰을 발급합니다.
-
-        String newAccessToken = generateNewAccessToken(claims);
-        return newAccessToken;
     }
 
     private String generateNewAccessToken(Map<String, Object> claims) {
