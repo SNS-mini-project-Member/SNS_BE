@@ -2,6 +2,7 @@ package com.example.sns.controller;
 
 import com.example.sns.domain.request.FollowRequest;
 import com.example.sns.domain.response.GetAllFollowerResponse;
+import com.example.sns.domain.response.UserResponse;
 import com.example.sns.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +28,20 @@ public class FollowController {
                     required = false,
                     defaultValue = "100") Integer size
 
-    ){  Long userId = 11L;
+    ){  Long userId = 21L;
         Page<GetAllFollowerResponse> allFollower = followService.getAllFollowers(PageRequest.of(page, size), userId);
         return allFollower;
     }
 
-    @PostMapping("/addFollower")
+    @GetMapping("/followerByName/{userName}")
+    public UserResponse getFollowerByName(
+            @PathVariable("userName") String userName
+    ) {
+        UserResponse myFollower = followService.getFollowerByName(userName);
+        return myFollower;
+    }
+
+    @PostMapping("/addFollowers")
     public void test (@RequestBody FollowRequest followRequest){
         followService.saveFollower(followRequest);
     }
