@@ -1,8 +1,7 @@
 package com.example.sns.board.store;
 
-import com.example.sns.board.domain.condition.BoardCondition;
-import com.example.sns.board.domain.entity.BoardEntity;
-import com.example.sns.user.domain.entity.User;
+import com.example.sns.domain.entity.BoardEntity;
+import com.example.sns.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
