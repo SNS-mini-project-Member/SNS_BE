@@ -18,9 +18,9 @@ public class FollowerRequest {
     public Follower toEntity() {
         Follower build = Follower
                 .builder()
-                .followersSeq((User.builder().userSeq(userId)).build().getUserSeq())
-                .followerUserId(followerUserId)
-                .userId(userId)
+                .followersSeq((User.builder().userSeq(followerUserId)).build().getUserSeq())
+                .followerUserId(userId)
+                .userId(followerUserId)
                 .build();
         return build;
     }

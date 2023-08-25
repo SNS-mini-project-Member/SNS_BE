@@ -14,6 +14,7 @@ public class GetAllFollowerResponse {
     private String followerEmail;
     private String followerName;
     private String followerAge;
+    private String followerPhone;
     private Boolean friend;
     private Date createAt;
 
@@ -23,6 +24,7 @@ public class GetAllFollowerResponse {
         this.followerName = user.getUserName();
         this.followerAge = user.getUserAge();
         this.friend = friendShip != null;
+        this.followerPhone = user.getUserPhone();
         this.createAt = createAt;
     }
 }
