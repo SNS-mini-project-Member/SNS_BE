@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public record CommentRequest(Long userSeq
         , Long boardSeq
         , String commentData) {
+
     public CommentEntity toEntity() {
         return CommentEntity.builder()
                 .user(User.builder().userSeq(userSeq).build())

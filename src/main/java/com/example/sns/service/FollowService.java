@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class FollowService {
         List<GetAllFollowerResponse> followerResponses = allFollowers.stream()
                 .map(follower -> {
                     boolean isFriend = friendShipMap.containsKey(follower.getFollowerUserId());
-                    Date createAt = follower.getCreateAt();
+                    LocalDateTime createAt = follower.getCreateAt();
 
                     User userInfo = getUserInfo(follower.getUserId());
 

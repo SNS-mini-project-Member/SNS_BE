@@ -11,16 +11,13 @@ import java.time.LocalDateTime;
 public record ReCommentRequest (Long userSeq
         , Long boardSeq
         , Long commentSeq
-        , String reComment
-        , LocalDateTime createAt){
+        , String reComment){
     public ReCommentEntity toEntity() {
         return ReCommentEntity.builder()
                 .user(User.builder().userSeq(userSeq).build())
                 .board(BoardEntity.builder().boardSeq(boardSeq).build())
                 .comment(CommentEntity.builder().commentSeq(commentSeq).build())
                 .reComment(reComment)
-                .createdAt(createAt)
                 .build();
-
     }
 }

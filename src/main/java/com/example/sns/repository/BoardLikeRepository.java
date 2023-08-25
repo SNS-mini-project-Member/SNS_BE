@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface BoardLikeRepository extends JpaRepository <BoardLikeEntity, Long> {
 
+    BoardLikeEntity findByUserAndBoard(User userSeq, BoardEntity boardSeq);
 
     @Query("select b from BoardLikeEntity b where b.user=:userSeq and b.board=:boardSeq")
     Optional<BoardLikeEntity> findByUser_UserSeqAndBoard_BoardSeq(User userSeq, BoardEntity boardSeq);

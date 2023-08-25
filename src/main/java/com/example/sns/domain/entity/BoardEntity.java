@@ -3,10 +3,9 @@ package com.example.sns.domain.entity;
 import com.example.sns.board.store.UserBoard;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 

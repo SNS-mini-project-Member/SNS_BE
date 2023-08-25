@@ -3,6 +3,7 @@ package com.example.sns.domain.entity;
 import com.example.sns.dto.UserLevel;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -40,6 +41,7 @@ public class User {
     @Column(name = "followings_count")
     private Integer followingsCount;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
