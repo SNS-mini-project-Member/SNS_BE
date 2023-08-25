@@ -8,19 +8,12 @@ import java.time.LocalDateTime;
 
 public record CommentRequest(Long userSeq
         , Long boardSeq
-        , String comment
-        , Integer likeCount
-        , Integer commentCount
-        , LocalDateTime createAt) {
-
+        , String commentData) {
     public CommentEntity toEntity() {
         return CommentEntity.builder()
                 .user(User.builder().userSeq(userSeq).build())
                 .board(BoardEntity.builder().boardSeq(boardSeq).build())
-                .comment(comment)
-                .likeCount(0)
-                .commentCount(0)
-                .createdAt(createAt)
+                .comment(commentData)
                 .build();
     }
 

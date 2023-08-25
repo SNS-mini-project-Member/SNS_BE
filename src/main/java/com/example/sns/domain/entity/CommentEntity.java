@@ -37,14 +37,14 @@ public class CommentEntity {
     @Column(nullable = false, name = "comment")
     private String comment;
 
-    @Column(nullable = true, name = "created_at")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, name = "likeCount", columnDefinition = "INT default 0")
+    @Column(name = "likeCount", columnDefinition = "INT default 0")
     @Setter
     private Integer likeCount;
 
-    @Column(nullable = false, name = "commentCount", columnDefinition = "INT default 0")
+    @Column(name = "commentCount", columnDefinition = "INT default 0")
     @Setter
     private Integer commentCount;
 

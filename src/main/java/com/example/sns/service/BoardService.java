@@ -77,15 +77,15 @@ public class BoardService {
 
     // 게시물 댓글 작성 로직 + 게시물에 댓글 작성하면 +1
     public void commentInsert(CommentRequest commentRequest) {
-        CommentEntity commentEntity = commentRequest.toEntity();
-        commentRepository.save(commentEntity);
+//        CommentEntity commentEntity = commentRequest.toEntity();
+        commentRepository.save(commentRequest.toEntity());
 
-        Long boardSeq = commentRequest.boardSeq();
-        BoardEntity board = boardRepository.findById(boardSeq).orElse(null);
-        if (board != null) {
-            board.setCommentCount(board.getCommentCount() + 1);
-            boardRepository.save(board);
-        }
+//        Long boardSeq = commentRequest.boardSeq();
+//        BoardEntity board = boardRepository.findById(boardSeq).orElse(null);
+//        if (board != null) {
+//            board.setCommentCount(board.getCommentCount() + 1);
+//            boardRepository.save(board);
+//        }
 
     }
 
@@ -114,13 +114,15 @@ public class BoardService {
     }
 
     public void bookMark(BookMarkRequest bookMarkRequest) {
-        Long userSeq = bookMarkRequest.userSeq();
-        Long boardSeq = bookMarkRequest.boardSeq();
+        Long userSeq = bookMarkRequest.toEntity().getUser().getUserSeq();
+        Long boardSeq = bookMarkRequest.toEntity().getBoard().getBoardSeq();
 
         BookmarkEntity existingBook =
                 bookMarkRepository.findByUserAndBoard(
                         User.builder().userSeq(userSeq).build()
                         , BoardEntity.builder().boardSeq(boardSeq).build());
+
+        System.out.println("existingBook : "+  existingBook);
 
         if (existingBook != null) {
             bookMarkRepository.delete(existingBook);
@@ -134,11 +136,12 @@ public class BoardService {
         }
     }
 
+    // 유저가 즐겨찾기한 정보
     public Page<BookMarkResponse> findByBookUser(Long userSeq, PageRequest request) {
         Page<BookmarkEntity> byBoard = bookMarkRepository.findByUser_UserSeq(userSeq, request);
         return byBoard.map(BookMarkResponse::new);
     }
-
+    // 게시물을 조회하면 북마크 유저 정보
     public Page<BookMarkResponse> findBookSeqAll(Long boardSeq, PageRequest request) {
         Page<BookmarkEntity> byBoard = bookMarkRepository.findByBoard_BoardSeq(boardSeq, request);
         return byBoard.map(BookMarkResponse::new);

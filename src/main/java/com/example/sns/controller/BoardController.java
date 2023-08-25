@@ -60,6 +60,7 @@ public class BoardController {
     @PostMapping("/book") // 북마크 추가 v
     @ResponseStatus(HttpStatus.CREATED)
     public void bookMarkPost(@RequestBody BookMarkRequest request) {
+
         boardService.bookMark(request);
     }
 
@@ -97,7 +98,7 @@ public class BoardController {
     public Page<BookMarkResponse> getByBookSeqAll(
             @RequestParam(name = "boardSeq",
                     required = false,
-                    defaultValue = "") Long BoardSeq,
+                    defaultValue = "") Long boardSeq,
             @RequestParam(name = "size",
                     required = false,
                     defaultValue = "10") Integer size,
@@ -106,6 +107,6 @@ public class BoardController {
                     defaultValue = "0 ") Integer page
     ) {
         PageRequest request = PageRequest.of(page, size);
-        return boardService.findBookSeqAll(BoardSeq, request);
+        return boardService.findBookSeqAll(boardSeq, request);
     }
 }

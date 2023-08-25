@@ -28,7 +28,7 @@ public class BookMarkResponse {
 
     @Getter
     class UserBookDto {
-        private Long UserSeq;
+        private Long userSeq;
         private String userEmail;
         private String userName;
         private String userPhone;
@@ -40,7 +40,7 @@ public class BookMarkResponse {
         public UserBookDto(User user) {
 
 
-            this.UserSeq = user.getUserSeq();
+            this.userSeq = user.getUserSeq();
             this.userEmail = user.getUserEmail();
             this.userName = user.getUserName();
             this.userPhone = user.getUserPhone();
