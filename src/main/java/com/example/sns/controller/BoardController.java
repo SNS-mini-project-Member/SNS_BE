@@ -28,10 +28,7 @@ public class BoardController {
         System.out.println("내용" + request.contents());
         System.out.println(" 내용2 " + request.media());
         boardService.boardInsert(request);
-
-
     }
-
 
     @PostMapping("/comment")// 댓글 작성 v
     @ResponseStatus(HttpStatus.CREATED)
