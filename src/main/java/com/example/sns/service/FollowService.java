@@ -5,6 +5,7 @@ import com.example.sns.domain.entity.FriendShip;
 import com.example.sns.domain.entity.User;
 import com.example.sns.domain.request.FollowRequest;
 import com.example.sns.domain.response.GetAllFollowerResponse;
+import com.example.sns.domain.response.UserResponse;
 import com.example.sns.repository.FollowerRepository;
 import com.example.sns.repository.FollowingRepository;
 import com.example.sns.repository.FriendShipRepository;
@@ -33,6 +34,8 @@ public class FollowService {
     private final FriendShipRepository friendShipRepository;
     private final UserRepository userRepository;
 
+
+
     @Transactional(readOnly = true)
     public Page<GetAllFollowerResponse> getAllFollowers(PageRequest request, Long followerId) {
 
@@ -40,7 +43,15 @@ public class FollowService {
         Page<FriendShip> allFriends = friendShipRepository.findFriendBy(followerId, request);
 
         Map<Long, FriendShip> friendShipMap = allFriends.stream()
-                .collect(Collectors.toMap(FriendShip::getFriendshipsId, Function.identity()));
+                .collect(Collectors.toMap(
+                        FriendShip::getFriendshipsId, // 키 추출
+                        Function.identity(),
+                        (existing, replacement) -> {
+                            // 중복된 키 값이 발생했을 때 처리 로직을 여기에 작성
+                            // 예: 필요한 정보를 병합하거나 덮어쓰기
+                            return existing;
+                        }
+                ));
 
         List<GetAllFollowerResponse> followerResponses = allFollowers.stream()
                 .map(follower -> {
@@ -61,9 +72,19 @@ public class FollowService {
         return new PageImpl<>(followerResponses, request, allFollowers.getTotalElements());
     }
 
+
+
     private User getUserInfo(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getFollowerByName(String userName){
+
+        UserResponse friend = userRepository.findByName(userName);
+        return friend;
+
     }
 
 

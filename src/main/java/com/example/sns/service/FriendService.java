@@ -38,8 +38,16 @@ public class FriendService {
         return allFriend
                 .map(UserResponse::new);
 
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getFriendByName(String userName){
+
+        UserResponse friend = userRepository.findByName(userName);
+        return friend;
 
     }
+
 
     @Transactional(readOnly = true)
     public Page<UserResponse> getAllFriendReq(PageRequest request,Long id){
@@ -97,8 +105,8 @@ public class FriendService {
             reverseFriendShip.setFriendshipsId(userId1);
             friendShipRepository.save(reverseFriendShip);
 
-            friendReqRepository.deleteByReqId(friendRequest.getFriendReqRequest().getFriendReqId());
-            friendRecommendRepository.deleteByRecommendId(friendRequest.getFriendRecommendRequest().getFriendRecommendId());
+//            friendReqRepository.deleteByReqId(friendRequest.getFriendReqRequest().getFriendReqId());
+//            friendRecommendRepository.deleteByRecommendId(friendRequest.getFriendRecommendRequest().getFriendRecommendId());
         } else {
             System.out.println("이미 친구인 계정입니다.");
         }

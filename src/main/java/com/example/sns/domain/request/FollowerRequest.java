@@ -10,31 +10,17 @@ import lombok.RequiredArgsConstructor;
 
 public class FollowerRequest {
 
-    private Long userSeq;
 
     private final Long userId;
 
     private final Long followerUserId;
 
-    private final String age;
-
-    private final String userName;
-    private final String userEmail;
-    private final String userPhone;
-
-
     public Follower toEntity() {
         Follower build = Follower
                 .builder()
-                .followersSeq(User.builder()
-                        .userSeq(userSeq)
-                        .userAge(age)
-                        .userName(userName)
-                        .userEmail(userEmail)
-                        .userPhone(userPhone)
-                        .build().getUserSeq())
-                .followerUserId(followerUserId)
-                .userId(userId)
+                .followersSeq((User.builder().userSeq(followerUserId)).build().getUserSeq())
+                .followerUserId(userId)
+                .userId(followerUserId)
                 .build();
         return build;
     }

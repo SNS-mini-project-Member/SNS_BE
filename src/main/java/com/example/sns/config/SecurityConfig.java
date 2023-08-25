@@ -34,16 +34,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         OrRequestMatcher publicUrls = new OrRequestMatcher(
-//                new AntPathRequestMatcher("/api/v1/users/login"),
-//                new AntPathRequestMatcher("/api/v1/users/signup"),
-//                new AntPathRequestMatcher("/api/v1/users/update"),
-//                new AntPathRequestMatcher("/api/v1/users/validToken"),
-//                new AntPathRequestMatcher("/api/v1/mail"),
-//                new AntPathRequestMatcher("/api/v1/**"),
-//                new AntPathRequestMatcher("/api/v1/boards"),
-//                new AntPathRequestMatcher("/api/v1/likes"),
-//                new AntPathRequestMatcher("/api/v1/mail/pwChange")
-                new AntPathRequestMatcher("/**")
+                new AntPathRequestMatcher("/api/v1/users/login"),
+                new AntPathRequestMatcher("/api/v1/users/signup"),
+                new AntPathRequestMatcher("/api/v1/users/update"),
+                new AntPathRequestMatcher("/api/v1/users/validToken"),
+                new AntPathRequestMatcher("/api/v1/mail"),
+                new AntPathRequestMatcher("/api/v1/friend/**"),
+                new AntPathRequestMatcher("/api/v1/follow/**"),
+                new AntPathRequestMatcher("/api/v1/boards"),
+                new AntPathRequestMatcher("/api/v1/**"),
+                new AntPathRequestMatcher("/api/v1/mail/pwChange")
         );
 
         http
